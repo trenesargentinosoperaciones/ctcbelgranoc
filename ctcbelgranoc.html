@@ -2,12 +2,10 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Mesa comando digital Olivos</title>
-
+<title>CTC Lineal General - Corredor Unificado</title>
 
 <style>
     body { background-color: #000; color: white; font-family: Arial; margin: 0; overflow-x: auto; user-select: none; }
-    
     .map-container { position: relative; width: 11500px; height: 2350px; background-color: #0b0c10; }
 
     /* --- ESTILO SEÑALES --- */
@@ -18,8 +16,8 @@
     .t-girada { font-size: 35px; font-weight: bold; transform: rotate(-90deg); margin-right: -10px; line-height: 1; transition: 0.2s; }
     .circulo-led { width: 22px; height: 22px; border-radius: 50%; background-color: #200; transition: 0.2s; } 
     .curva-led {
-        width: 14px;
-        height: 14px;
+        width: 14px; 
+        height: 14px; 
         background-color: #B8F5B8;
         transition: 0.2s;
         border-radius: 0 14px 0 0; 
@@ -31,6 +29,7 @@
     .enana .t-girada { font-size: 22px !important; margin-right: -6px !important; }
     .enana .circulo-led { width: 14px !important; height: 14px !important; }
     .enana .curva-led { width: 14px !important; height: 14px !important; }
+
     .enana .s-nombre-real { font-size: 10px !important; }
 
     .sentido-izq .s-grafico-real { flex-direction: row-reverse; }
@@ -53,8 +52,8 @@
     .via { 
         position: absolute; 
         height: 10px; 
-        background-color: #333; 
-        border: 1px solid #555; 
+        background-color: #FF0000; 
+        border: 1px solid #FF0000; 
         z-index: 30; 
         box-sizing: border-box; 
         transition: none !important; 
@@ -72,7 +71,14 @@
         border-radius: 2px;
         pointer-events: none;
         z-index: 50 !important;
-    }    
+    }      
+    .via-diagonal-ajustada {
+        position: absolute;
+        height: 10px; 
+        background-color: #FF0000; 
+        z-index: 30;
+        clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);
+    }
 
     .via-fantasma { background-color: #7F7F7F !important; border: none !important; color: transparent !important; z-index: 25 !important; box-shadow: none !important; }
 
@@ -81,125 +87,356 @@
     .libresinI { background-color: #FFFF00 !important; border-color: #FFFF00 !important; }
     .maniobra { background-color: #00A2E8 !important; border-color: #00A2E8 !important; }
     .libredeslizamiento { background-color: #A349A4 !important; border-color: #A349A4 !important; }
-    .zonasinseñalizar { background-color: #0000FF !important; border-color: #0000FF !important; }
+    .zonasinseñalizar { background-color: #0000FF!important; border-color: #0000FF!important; }
+    .CVMXCS { 
+        background-color: #FFFF00 !important; 
+        border-top: 3px solid #FFFFFF !important; 
+        border-bottom: 3px solid #FFFFFF !important; 
+        height: 10px !important;
+        border-left: 1px solid transparent !important; 
+        border-right: 1px solid transparent !important;
+    }
+    .CVCRAS { 
+        background-color: #FFFF00 !important; 
+        border-top: 3px solid #00FF00 !important; 
+        border-bottom: 3px solid #00FF00 !important; 
+        height: 10px !important;
+        border-left: 1px solid transparent !important; 
+        border-right: 1px solid transparent !important;
+    }
+    .BVACVSD {
+        background-color: #7F7F7F !important;
+        border-top: 3px solid #A349A4 !important;
+        border-bottom: 3px solid #A349A4 !important;
+        height: 10px !important;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" fill="white" stroke="red" stroke-width="1"/><line x1="2" y1="2" x2="8" y2="8" stroke="red" stroke-width="2"/><line x1="8" y1="2" x2="2" y2="8" stroke="red" stroke-width="2"/></svg>') !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: 14px 14px !important; 
+    }
 
     .diagonal { transform-origin: 0% 50%; }    
 
     /* --- PANELES CONTROLES SUPERIORES --- */
+    .status-container-bel { position: absolute; top: 570px; left: 380px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); }
+    .status-container-nuz { position: absolute; top: 520px; left: 1450px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
     .status-container-oli { position: absolute; top: 520px; left: 2960px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
+    .status-container-isi { position: absolute; top: 520px; left: 4550px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
+    .status-container-vic { position: absolute; top: 245px; left: 6275px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
+    .status-container-fer { position: absolute; top: 520px; left: 8450px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
+    .status-container-tig { position: absolute; top: 580px; left: 9780px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
 
     .status-row { display: flex; align-items: center; gap: 15px; color: white; }
     .nombre-grupo { font-weight: bold; width: 75px; border-right: 1px solid rgba(255,255,255,0.3); }
     .led-rd { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; background: #222; display: inline-block; }
     .l-white { background: #fff !important; box-shadow: 0 0 10px #fff; }
+    .l-yellow { background: #ffcc00 !important; box-shadow: 0 0 10px #ffcc00; }
     .l-red { background: #ff0000 !important; box-shadow: 0 0 10px #ff0000; }
 
+    .cd-via-panelB { position: absolute; top: 655px; left: 730px; background-color: #7D5BA6; border: 2px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+    .cd-via-panelN { position: absolute; top: 655px; left: 1795px; background-color: #41B883; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+    .cd-via-panelR { position: absolute; top: 677px; left: 2370px; background-color: #41B883; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
     .cd-via-panelVL { position: absolute; top: 677px; left: 2820px; background-color: #4682B4; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
     .cd-via-panelO { position: absolute; top: 655px; left: 3540px; background-color: #4682B4; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
     .cd-via-panelLL { position: absolute; top: 677px; left: 4050px; background-color: #4682B4; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+    .cd-via-panelMA { position: absolute; top: 677px; left: 4400px; background-color: #DE2C14; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+    .cd-via-panelSI { position: absolute; top: 655px; left: 5425px; background-color: #DE2C14; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+    .cd-via-panelAC { position: absolute; top: 677px; left: 4870px; background-color: #DE2C14; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+    .cd-via-panelVI { position: absolute; top: 655px; left: 7010px; background-color: #20603D; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+    .cd-via-panelBC { position: absolute; top: 677px; left: 6095px; background-color: #20603D; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+    .cd-via-panelVY { position: absolute; top: 677px; left: 8215px; background-color: #632D7A; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+    .cd-via-panelSF { position: absolute; top: 655px; left: 8770px; background-color: #632D7A; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+    .cd-via-panelCA { position: absolute; top: 677px; left: 9270px; background-color: #632D7A; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+    .cd-via-panelT { position: absolute; top: 655px; left: 10815px; background-color: #CC9900; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
 
-    .led-10mm { width: 15px; height: 15px; border-radius: 50%; background-color: #1a1a1a; border: 2px solid #333; display: inline-block; margin-right: 5px; transition: 0.2s; cursor: pointer; }
+    .led-10mm { width: 15px; height: 15px; border-radius: 50%; background-color: #1a1a1a; border: 2px solid #333; display: inline-block; margin-right: 5px; transition: 0.2s; }
     .l-on-w { background-color: #ffffff !important; box-shadow: 0 0 15px #fff !important; }
     .l-on-b { background-color: #0088ff !important; box-shadow: 0 0 15px #0088ff !important; }
     
     .estacion { border: 2px solid white; background: black; padding: 5px 20px; font-weight: bold; position: absolute; font-size: 22px; z-index: 20; }
     .anden { position: absolute; height: 35px; background-color: #A9A9A9; border: 1px solid #777777; z-index: 10; opacity: 0.9; }
-    .nombre-cambio { background-color: #0056b3; border: 1px solid white; color: white; padding: 1px 4px; font-size: 10px; font-weight: bold; border-radius: 2px; z-index: 50; position: absolute; cursor: pointer; }
-
-    .led-enclav { width: 12px; height: 12px; border-radius: 50%; background-color: #ffffff; border: 1px solid #777; display: inline-block; transition: 0.3s; cursor: pointer; }
+    .andenfin { position: absolute; height: 9px; background-color: #666666; border: 1px solid #444444; z-index: 10; opacity: 0.9; }
+    .nombre-cambio { background-color: #0056b3; border: 1px solid white; color: white; padding: 1px 4px; font-size: 10px; font-weight: bold; border-radius: 2px; z-index: 50; position: absolute; }
+    .led-enclav { 
+        width: 12px; 
+        height: 12px; 
+        border-radius: 50%; 
+        background-color: #ffffff; 
+        border: 1px solid #777; 
+        display: inline-block; 
+        transition: 0.3s; 
+    }
+    .enc-on { 
+        background-color: #00BFFF !important; 
+        border-color: #00BFFF !important;
+        box-shadow: 0 0 10px #00BFFF !important; 
+    }
+    .label-enc { font-size: 9px; color: #00BFFF; font-weight: bold; margin-bottom: 2px; }
     .label-plataforma { position: absolute; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px; letter-spacing: 1px; pointer-events: none; z-index: 15; }
 
-    /* --- PASOS A NIVEL --- */
+    /* --- PASOS A NIVEL SIEMENS EN L --- */
     .pan-rect { position: absolute; width: 20px; height: 400px; background-color: #444; z-index: 5; }
     .pan-etiqueta { position: absolute; background-color: black; color: white; border: 1px solid white; padding: 2px 6px; font-size: 11px; transform: rotate(-90deg); transform-origin: left bottom; z-index: 25; }
     .ind-pan-container { position: absolute; width: 30px; height: 30px; z-index: 30; cursor: pointer; }
     .ind-alto { position: absolute; left: 0; bottom: 10px; width: 10px; height: 25px; background-color: #331100; border: 1px solid #000; }
-    .ind-alto.active { background-color: #FF0000; box-shadow: 0 0 10px #FF0; }
+    .ind-alto.active { background-color: #FFFF00; box-shadow: 0 0 10px #FF0; }
     .ind-bajo { position: absolute; left: 0; bottom: 0; width: 30px; height: 10px; background-color: #330000; border: 1px solid #000; }
-    .ind-bajo.active { background-color: #FFFF00; box-shadow: 0 0 10px #F00; }
-    .pan-amarillo-on { background-color: #FF0000 !important; box-shadow: 0 0 15px #FF0000 !important; border-color: #FF0000 !important; }
-    .pan-rojo-on { background-color: #FFFF00 !important; box-shadow: 0 0 15px #FFFF00 !important; border-color: #FFFF00 !important; }
+    .ind-bajo.active { background-color: #FF0000; box-shadow: 0 0 10px #F00; }
+
+    .pan-amarillo-on { background-color: #FFFF00 !important; box-shadow: 0 0 15px #FFFF00 !important; border-color: #FFFF00 !important; }
+    .pan-rojo-on { background-color: #FF0000 !important; box-shadow: 0 0 15px #FF0000 !important; border-color: #FF0000 !important; }
     .indicacion { background: #b50b6e; border: 2px solid white; color: white; padding: 2px 10px; font-weight: bold; position: absolute; font-size: 13px; z-index: 20; letter-spacing: 1px;box-shadow: 4px 4px 0px #000; }
 
+    /* EL PARAGOLPE DIBUJADO (FLECHA ROJA + BARRA) */
+    .paragolpe-diseno {
+        position: absolute;
+        width: 25px;
+        height: 20px;
+        z-index: 100;
+    }
+    .paragolpe-diseno::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 15px solid #ff0000;
+    }
+    .paragolpe-diseno::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 4px;
+        height: 20px;
+        background-color: #ff0000;
+    }
+    .paragolpe-diseno .union {
+        position: absolute;
+        left: 15px;
+        top: 8px;
+        width: 6px;
+        height: 4px;
+        background-color: #ff0000;
+    }
 
-    .status-box-oli { position: absolute; top: 450px; left: 2960px; width: 260px; background-color: #FFD700; border: 2px solid #000; border-radius: 4px; padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 100; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
-    .status-header-text { font-weight: bold; font-size: 20px; color: WHITE; text-transform: uppercase; }
-    .status-content { display: flex; align-items: center; gap: 15px; }
-    .status-label { font-size: 15px; font-weight: bold; color: RED; }
-    .led-status { width: 15px; height: 15px; border-radius: 50%; background-color: #555; border: 1px solid black; }
+    /* --- DISEÑO DEL INDICADOR DE RUTA --- */
+    .caja-ruta-exterior {
+        position: absolute;
+        width: 38px;
+        height: 48px;
+        background-color: #000000;
+        border: 2px solid #333333;
+        border-radius: 4px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 200;
+    }
+    .visor-ruta-interior {
+        width: 28px;
+        height: 38px;
+        background-color: #e6c300;
+        border: 2px solid #000000;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .texto-ruta-negro {
+        font-family: 'Courier New', monospace;
+        font-size: 30px;
+        font-weight: 900;
+        color: #000000;
+        line-height: 1;
+        user-select: none;
+    }
 
+    .status-box-bel {
+        position: absolute;
+        top: 500px;
+        left: 380px; 
+        width: 225px;
+        background-color: #FFD700;
+        border: 2px solid #000;
+        border-radius: 4px;
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        z-index: 100;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    }
+    .status-box-nun {
+        position: absolute;
+        top: 450px;
+        left: 1450px; 
+        width: 260px;
+        background-color: #FFD700;
+        border: 2px solid #000;
+        border-radius: 4px;
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        z-index: 100;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    }
+    .status-box-oli {
+        position: absolute;
+        top: 450px;
+        left: 2960px; 
+        width: 260px;
+        background-color: #FFD700;
+        border: 2px solid #000;
+        border-radius: 4px;
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        z-index: 100;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    }
+    .status-box-isi {
+        position: absolute;
+        top: 450px;
+        left: 4550px; 
+        width: 260px;
+        background-color: #FFD700;
+        border: 2px solid #000;
+        border-radius: 4px;
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        z-index: 100;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    }
+    .status-box-vic {
+        position: absolute;
+        top: 175px;
+        left: 6275px; 
+        width: 260px;
+        background-color: #FFD700;
+        border: 2px solid #000;
+        border-radius: 4px;
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        z-index: 100;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    }
+    .status-box-fer {
+        position: absolute;
+        top: 450px;
+        left: 8450px; 
+        width: 260px;
+        background-color: #FFD700;
+        border: 2px solid #000;
+        border-radius: 4px;
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        z-index: 100;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    }
+    .status-box-tig {
+        position: absolute;
+        top: 510px;
+        left: 9780px; 
+        width: 260px;
+        background-color: #FFD700;
+        border: 2px solid #000;
+        border-radius: 4px;
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        z-index: 100;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    }
+
+    .status-header-text {
+        font-weight: bold;
+        font-size: 20px;
+        color: WHITE;
+        text-transform: uppercase;
+    }
+    .status-content {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .status-label {
+        font-size: 15px;
+        font-weight: bold;
+        color: RED;
+    }
+    .led-status {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: #555;
+        border: 1px solid black;
+    }
     .led-on { background-color: #00FF00; box-shadow: 0 0 5px #00FF00; }
     .led-off { background-color: #FF0000; box-shadow: 0 0 5px #FF0000; }
 
-    #AW2021.l-red, #AW2425.l-red, #AW132131.l-red { background-color: red !important; box-shadow: 0 0 10px red !important; }
-
-    .enclav-cambio { border-radius: 2px; width: 22px; z-index: 9999 !important; position: relative; }
-    .enclav-senal { border-radius: 50%; }
-
-    /* --- MENÚS EMERGENTES SIEMENS --- */
-    .menu-siemens {
-        display: none;
+    .linea-limite {
         position: absolute;
-        background: #d4d0c8;
-        border: 2px solid #0056b3;
-        box-shadow: 3px 3px 10px rgba(0,0,0,0.8);
-        z-index: 10000;
-        width: 215px;
-        font-family: Arial, sans-serif;
-        font-size: 11px;
-        color: #000;
+        z-index: 999;
+        border-color: #fff;
+        border-style: dashed;
     }
-    .menu-siemens-header {
-        background: #0056b3;
-        color: #00FFFF;
-        font-weight: bold;
-        padding: 4px 6px;
-        font-size: 11px;
-        text-transform: uppercase;
+    .linea-v {
+        border-left-width: 2px;
+        border-top: 0;
+        border-bottom: 0;
+        border-right: 0;
     }
-    .menu-siemens-item {
-        padding: 6px 8px;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #e4e0d8;
-        font-weight: bold;
-        border-bottom: 1px solid #bcbbb6;
-    }
-    .menu-siemens-item:hover {
-        background: #0056b3;
-        color: #ffffff;
-    }
-    .menu-siemens-item.deshabilitado {
-        color: #999999 !important;
-        background: #eae6df !important;
-        cursor: not-allowed !important;
-        pointer-events: none !important;
+    .linea-h {
+        border-top-width: 2px;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 0;
     }
 
-    /* --- CARTEL CHICO DE ADVERTENCIA BLOQUEO --- */
-    .cartel-advertencia-cd {
-        display: none;
-        position: absolute;
-        background: #b30000;
-        color: #ffffff;
-        border: 1px solid #ffffff;
-        box-shadow: 0 0 10px rgba(255,0,0,0.8);
-        padding: 5px 8px;
-        border-radius: 3px;
-        font-size: 10px;
-        font-weight: bold;
-        z-index: 20000;
-        white-space: nowrap;
-        pointer-events: none;
-        text-align: center;
+    #AW12.l-red {
+        background-color: red !important;
+        box-shadow: 0 0 10px red !important;
     }
 
-    .linea-limite { position: absolute; z-index: 999; border-color: #fff; border-style: dashed; }
-    .linea-v { border-left-width: 2px; border-top: 0; border-bottom: 0; border-right: 0; }
-    .linea-h { border-top-width: 2px; border-left: 0; border-right: 0; border-bottom: 0; }
- /* LOGO FLOTANTE FIJO ARRIBA A LA DERECHA (FONDO BLANCO) */
+    .led-enclav { 
+        width: 12px; 
+        height: 12px; 
+        background-color: #ffffff; 
+        border: 1px solid #777; 
+        display: inline-block; 
+        transition: 0.3s; 
+    }
+    .enclav-cambio {
+        border-radius: 2px;
+        width: 22px;
+        z-index: 9999 !important;
+        position: relative;
+    }
+    .enclav-senal {
+        border-radius: 50%;
+    }
+
+    /* LOGO FLOTANTE FIJO ARRIBA A LA DERECHA (FONDO BLANCO) */
     .logo-flotante {
         position: fixed;
         top: 15px;
@@ -221,1157 +458,477 @@
 <!-- LOGO INSTITUCIONAL FIJO ARRIBA A LA DERECHA CON FONDO BLANCO -->
 <div class="logo-flotante">
     <svg height="38" viewBox="0 0 330 65" xmlns="http://www.w3.org/2000/svg">
+        <!-- Fondo blanco interno por seguridad (opcional si ya tiene background en CSS) -->
         <rect width="330" height="65" fill="#ffffff"/>
+        <!-- Barra vertical izquierda celeste -->
         <rect x="0" y="4" width="7" height="57" fill="#00b4d8"/>
+        <!-- Texto TRENES ARGENTINOS -->
         <text x="16" y="21" font-family="Arial, sans-serif" font-weight="900" font-size="19" fill="#00b4d8" letter-spacing="1">TRENES ARGENTINOS</text>
+        <!-- Texto OPERACIONES -->
         <text x="16" y="53" font-family="Arial, sans-serif" font-weight="900" font-size="28" fill="#0077b6" letter-spacing="0.5">OPERACIONES</text>
     </svg>
 </div>
 
+<div class="linea-limite linea-v" style="top: 820px; left: 695px; height: 85px;"></div>
+<div class="linea-limite linea-h" style="top: 905px; left: 595px; width: 100px;"></div>
+<div class="linea-limite linea-v" style="top: 905px; left: 595px; height: 200px;"></div>
 
-<!-- CARTEL CHICO DE ADVERTENCIA -->
-<div id="cartelBloqueoCD" class="cartel-advertencia-cd">
-    🛑 PROHIBIDO: CAMBIO ENCLAVADO
-</div>
+<div class="linea-limite linea-v" style="top: 820px; left: 1245px; height: 85px;"></div>
+<div class="linea-limite linea-h" style="top: 905px; left: 1165px; width: 80px;"></div>
+<div class="linea-limite linea-v" style="top: 905px; left: 1165px; height: 200px;"></div>
 
 <div class="map-container">
     
-    <!-- STATUS BOXES -->
-    <div class="status-box-oli">
-        <div class="status-header-text">OLIVOS</div>
-        <div class="status-content">
-            <span id="indicadorOlivos" class="led-status"></span>
-            <span class="status-label">EN VIVO</span>
-        </div>
+<div class="status-box-bel">
+    <div class="status-header-text">BELGRANO C</div>
+    <div class="status-content">
+        <span id="indicadorBelgrano" class="led-status"></span>
+        <span class="status-label">EN VIVO</span>
     </div>
+</div>
+
+   <div class="status-container-bel">
+        <div class="status-row"><b>W2/1</b><div id="LW12P" class="led-rd"></div><b>+</b><div id="LW12M" class="led-rd"></div><b>-</b><div id="AW12" class="led-rd"></div><b>A</b></div>
+    </div>
+
+    <div class="cd-via-panelB"><div><div id="led-CDV1_B" class="led-10mm"></div>CDV1</div><div><div id="led-CDV2_B" class="led-10mm"></div>CDV2</div><div><div id="led-RF_B" class="led-10mm"></div>R.F</div><div><div id="led-RU_B" class="led-10mm"></div>R.U</div></div>
+
+    <div class="estacion" style="top: 728px; left: 240px;">L. DE LA TORRE</div>
+    <div class="estacion" style="top: 728px; left: 705px;">BELGRANO C</div>
+
+    <div class="anden" style="top: 785px; left: 290px; width: 130px;"></div><div class="anden" style="top: 990px; left: 275px; width: 130px;"></div>
+    <div class="anden" style="top: 785px; left: 740px; width: 130px;"></div><div class="anden" style="top: 990px; left: 740px; width: 130px;"></div>
+
+    <div class="label-plataforma" style="top: 785px; left: 270px; width: 170px; height: 35px;">PLATAFORMA 1</div>
+    <div class="label-plataforma" style="top: 785px; left: 720px; width: 170px; height: 35px;">PLATAFORMA 1</div>
+    <div class="label-plataforma" style="top: 990px; left: 255px; width: 170px; height: 35px;">PLATAFORMA 2</div>
+    <div class="label-plataforma" style="top: 990px; left: 720px; width: 170px; height: 35px;">PLATAFORMA 2</div>
+
+    <div id="cT7" class="via v-arriba" data-nombre="CVT7" style="top: 850px; left: 60px; width: 85px;"></div>
+    <div id="c101" class="via v-arriba" data-nombre="CDV101" style="top: 850px; left: 150px; width: 95px;"></div>
+    <div id="c103" class="via v-arriba" data-nombre="CDV103" style="top: 850px; left: 250px; width: 195px;"></div>
+    <div id="c105" class="via v-arriba" data-nombre="CDV105" style="top: 850px; left: 450px; width: 95px;"></div>
+    <div id="c107" class="via v-arriba" data-nombre="CDV107" style="top: 850px; left: 550px; width: 145px;"></div>
+    <div id="ca-bel" class="via v-arriba" data-nombre="CDVA-BEL" style="top: 850px; left: 700px; width: 195px;"></div>
+    <div id="w1plus" class="via v-arriba" data-nombre="" style="top: 850px; left: 900px; width: 135px;"></div>
+    <div id="w1pm" class="via v-arriba" data-nombre="1" style="top: 850px; left: 1035px; width: 60px;"></div>
+    <div id="w1minus" class="via via-fantasma v-arriba" data-nombre="" style="top: 879px; left: 982px; width: 65px; height: 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);transform: rotate(-45deg);"></div>
+    <div id="cb-bel" class="via v-arriba" data-nombre="CVDB-BEL" style="top: 850px; left: 1100px; width: 145px;"></div>
+    <div id="c113" class="via v-arriba" data-nombre="CVD113" style="top: 850px; left: 1250px; width: 195px;"></div>
     
-    <div class="status-container-oli" id="panelMandoOlivos">
-        <div class="status-row"><div class="nombre-grupo">W20/21</div><div id="LW2021P" class="led-rd"></div><b>+</b><div id="LW2021M" class="led-rd"></div><b>-</b><div id="AW2021" class="led-rd"></div><b>A</b></div>
-        <div class="status-row"><div class="nombre-grupo">W24/25</div><div id="LW2425P" class="led-rd"></div><b>+</b><div id="LW2425M" class="led-rd"></div><b>-</b><div id="AW2425" class="led-rd"></div><b>A</b></div>
-        <div class="status-row"><div class="nombre-grupo">W132/131</div><div id="LW132131P" class="led-rd"></div><b>+</b><div id="LW132131M" class="led-rd"></div><b>-</b><div id="AW132131" class="led-rd"></div><b>A</b></div>
+    <div id="c14" class="via v-abajo" data-nombre="CVLD14" style="top: 950px; left: 60px; width: 95px;"></div>
+    <div id="c104" class="via v-abajo" data-nombre="CDV104" style="top: 950px; left: 160px; width: 85px;"></div>
+    <div id="c106" class="via v-abajo" data-nombre="CDV106" style="top: 950px; left: 250px; width: 195px;"></div>
+ 
+    <div id="c108" class="via v-abajo" data-nombre="CDV108" style="top: 950px; left: 450px; width: 145px;"></div>
+    <div id="cy-bel" class="via v-abajo" data-nombre="CDVY-BEL" style="top: 950px; left: 600px; width: 115px;"></div>
+    <div id="cz-bel" class="via v-abajo" data-nombre="CDVZ-BEL" style="top: 950px; left: 720px; width: 175px;"></div>
+    <div id="w2pm" class="via v-abajo" data-nombre="2" style="top: 950px; left: 900px; width: 50px;"></div>
+    <div id="w2plus" class="via v-abajo" data-nombre="" style="top: 950px; left: 950px; width: 210px;"></div>
+    <div id="w2minus" class="via via-fantasma v-arriba" data-nombre="" style="top: 921px; left: 940px; width: 65px; height: 10px;  clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);transform: rotate(-45deg);"></div>
+
+    <div id="c114" class="via v-abajo" data-nombre="CDV114" style="top: 950px; left: 1165px; width: 130px;"></div>
+    <div id="c116" class="via v-abajo" data-nombre="CDV116" style="top: 950px; left: 1300px; width: 145px;"></div>
+
+    <div id="s101_base" class="senal-unificada f-rojo" style="top: 780px; left: 150px;"><div class="s-nombre-real">101</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s103_base" class="senal-unificada f-rojo" style="top: 780px; left: 250px;"><div class="s-nombre-real">103</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s105_base" class="senal-unificada f-rojo" style="top: 780px; left: 450px;"><div class="s-nombre-real">105</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s107_base" class="senal-unificada f-rojo" style="top: 780px; left: 550px;"><div class="s-nombre-real">107</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="sA-BEL_base" class="senal-unificada f-rojo" style="top: 780px; left: 695px;"><div class="s-nombre-real">A-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="sB-BEL_base" class="senal-unificada f-rojo" style="top: 780px; left: 900px;"><div class="s-nombre-real">B-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s113_base" class="senal-unificada f-rojo" style="top: 780px; left: 1245px;"><div class="s-nombre-real">113</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+
+    <div id="s76_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 20px;"><div class="s-nombre-real">76</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s102_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 120px;"><div class="s-nombre-real">102</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s104_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 210px;"><div class="s-nombre-real">104</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s106_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 410px;"><div class="s-nombre-real">106</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s108_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 560px;"><div class="s-nombre-real">108</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="sY-BEL_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 680px;"><div class="s-nombre-real">Y-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="sZ-BEL_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 1130px;"><div class="s-nombre-real">Z-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s114_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 1265px;"><div class="s-nombre-real">114</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+
+    <div id="s2a_base" class="senal-unificada f-rojo enana" style="top: 915px; left: 900px;">
+      <div class="s-nombre-real">2A</div>
+      <div class="s-grafico-real">
+        <div class="t-girada">T</div>
+        <div class="curva-led"></div>
+      </div>
     </div>
 
-    <!-- CIRCUITOS DE VÍA PANELES -->
-    <div class="cd-via-panelVL"><div><div id="led-RF_VL" class="led-10mm"></div>R.F</div><div><div id="led-RU_VL" class="led-10mm"></div>R.U</div></div>
-    
-    <div class="cd-via-panelO">
-        <div  style="cursor: pointer;"><div id="led-CDV1_O" class="led-10mm"></div>CDV1</div>
-        <div  style="cursor: pointer;"><div id="led-CDV2_O" class="led-10mm"></div>CDV2</div>
-        <div><div id="led-RF_O" class="led-10mm"></div>R.F</div>
-        <div><div id="led-RU_O" class="led-10mm"></div>R.U</div>
+    <div id="s1ba_base" class="senal-unificada f-rojo nombre-s-abajo enana" style="top: 865px; left: 1075px;">
+      <div class="s-nombre-real">1BA</div>
+      <div class="s-grafico-real" style="transform: scaleX(-1); display: flex; justify-content: center;">
+        <div class="t-girada">T</div>
+        <div class="curva-led"></div>
     </div>
-    
-    <div class="cd-via-panelLL"><div><div id="led-RF_LL" class="led-10mm"></div>R.F</div><div><div id="led-RU_LL" class="led-10mm"></div>R.U</div></div>
-
-    <!-- ESTACIÓN OLIVOS Y ADYACENTES -->
-    <div class="estacion" style="top: 728px; left: 2765px;">VICENTE LOPEZ</div>
-    <div class="estacion" style="top: 728px; left: 3545px;">OLIVOS</div>
-    <div class="estacion" style="top: 728px; left: 4030px;">LA LUCILA</div>
-
-    <!-- ANDENES -->
-    <div class="anden" style="top: 785px; left: 2820px; width: 120px;"></div><div class="anden" style="top: 990px; left: 2820px; width: 120px;"></div>
-    <div class="anden" style="top: 785px; left: 3550px; width: 120px;"></div><div class="anden" style="top: 990px; left: 3550px; width: 120px;"></div>
-    <div class="anden" style="top: 785px; left: 4065px; width: 120px;"></div><div class="anden" style="top: 990px; left: 4065px; width: 120px;"></div>
-
-    <div class="label-plataforma" style="top: 785px; left: 2795px; width: 170px; height: 35px;">PLATAFORMA 1</div>
-    <div class="label-plataforma" style="top: 785px; left: 3525px; width: 170px; height: 35px;">PLATAFORMA 1</div>
-    <div class="label-plataforma" style="top: 785px; left: 4040px; width: 170px; height: 35px;">PLATAFORMA 1</div>
-
-    <div class="label-plataforma" style="top: 990px; left: 2795px; width: 170px; height: 35px;">PLATAFORMA 2</div>
-    <div class="label-plataforma" style="top: 990px; left: 3525px; width: 170px; height: 35px;">PLATAFORMA 2</div>
-    <div class="label-plataforma" style="top: 990px; left: 4040px; width: 170px; height: 35px;">PLATAFORMA 2</div>
-
-    <!-- MENÚS EMERGENTES SIEMENS -->
-    <div id="menuSiemensAguja" class="menu-siemens">
-        <div id="headerAgujaSiemens" class="menu-siemens-header">AGUJA</div>
-        <div class="menu-siemens-item" >Mover aguja <span>▶</span></div>
     </div>
 
-    <div id="menuSiemensSenal" class="menu-siemens">
-        <div id="headerSenalSiemens" class="menu-siemens-header">SEÑAL</div>
-        <div id="contenedorOpcionesSenal"></div>
-    </div>
+    <div class="nombre-cambio" style="top: 827px; left: 1025px;">w1</div>
+    <div class="nombre-cambio" style="top: 970px; left: 940px;">w2</div>
 
-    <div id="menuSiemensCD" class="menu-siemens">
-        <div id="headerCDSiemens" class="menu-siemens-header">CIRCULACIÓN DIRECTA</div>
-        <div id="contenedorOpcionesCD"></div>
-    </div>
+    <div style="position: absolute; top: 848px; left: 1025px; text-align: center;"><div id="EW1" class="led-enclav enclav-cambio"></div></div>
+    <div style="position: absolute; top: 947px; left: 938px; text-align: center;"><div id="EW2" class="led-enclav enclav-cambio"></div></div>
 
-    <div id="menuSiemensManiobra" class="menu-siemens">
-        <div id="headerManiobraSiemens" class="menu-siemens-header">MANIOBRA</div>
-        <div id="contenedorOpcionesManiobra"></div>
-    </div>
-
-    <!-- VÍAS SECTOR OLIVOS -->
-    <div id="c127" class="via v-arriba" data-nombre="CDV127" style="top: 850px; left: 2690px; width: 85px;"></div>
-    <div id="c129" class="via v-arriba" data-nombre="CDV129" style="top: 850px; left: 2780px; width: 175px;"></div>
-    <div id="w131plus" class="via v-arriba" data-nombre="" style="top: 850px; left: 2960px; width: 83px;"></div>
-    <div id="w131pm" class="via v-arriba" data-nombre="131" style="top: 850px; left: 3043px; width: 100px;"></div>
-    <div id="w131minus" class="via diagonal via-fantasma v-arriba" data-nombre="" style="top: 902px; left: 2995px; width: 65px; height: 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%); transform: rotate(-45deg);"></div>
-    <div id="c133" class="via v-arriba" data-nombre="CDV133" style="top: 850px; left: 3148px; width: 75px;"></div>
-    <div id="c135" class="via v-arriba" data-nombre="CDV135" style="top: 850px; left: 3228px; width: 100px;"></div>
-    <div id="w21plus" class="via v-arriba" data-nombre="" style="top: 850px; left: 3333px; width: 145px;"></div>
-    <div id="w21pm" class="via v-arriba" data-nombre="21" style="top: 850px; left: 3478px; width: 55px;"></div>
-    <div id="w21minus" class="via diagonal via-fantasma v-arriba" data-nombre="" style="top: 902px; left: 3428px; width: 65px; height: 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%); transform: rotate(-45deg);"></div>
-    <div id="ca-oli" class="via v-arriba" data-nombre="CDVA-OLI" style="top: 850px; left: 3538px; width: 155px;"></div>
-    <div id="w25plus" class="via v-arriba" data-nombre="" style="top: 850px; left: 3698px; width: 148px;"></div>
-    <div id="w25pm" class="via v-arriba" data-nombre="25" style="top: 850px; left: 3846px; width: 40px;"></div>
-    <div id="w25minus" class="via diagonal via-fantasma v-arriba" data-nombre="" style="top: 902px; left: 3795px; width: 65px; height: 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%); transform: rotate(-45deg);"></div>
-    <div id="cb-oli" class="via v-arriba" data-nombre="CDVB-OLI" style="top: 850px; left: 3891px; width: 60px;"></div>
-    <div id="c141" class="via v-arriba" data-nombre="CDV141" style="top: 850px; left: 3956px; width: 65px;"></div>
-    <div id="c143" class="via v-arriba" data-nombre="CDV143" style="top: 850px; left: 4026px; width: 185px;"></div>
-    <div id="c145" class="via v-arriba" data-nombre="CDV145" style="top: 850px; left: 4216px; width: 80px;"></div>
-    <div id="c147" class="via v-arriba" data-nombre="CDV147" style="top: 850px; left: 4301px; width: 70px;"></div>
-
-    <div id="w132pm" class="via v-abajo" data-nombre="132" style="top: 950px; left: 2805px; width: 145px;"></div>
-    <div id="w132plus" class="via v-abajo" data-nombre="" style="top: 950px; left: 2950px; width: 130px;"></div>
-    <div id="w132minus" class="via diagonal via-fantasma v-abajo" data-nombre="" style="top: 944px; left: 2953px; width: 65px; height: 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%); transform: rotate(-45deg);"></div>
-    <div id="c134" class="via v-abajo" data-nombre="CDV134" style="top: 950px; left: 3085px; width: 90px;"></div>
-    <div id="c136" class="via v-abajo" data-nombre="CDV136" style="top: 950px; left: 3180px; width: 90px;"></div>
-    <div id="cy-Oli" class="via v-abajo" data-nombre="CDVY-OLI" style="top: 950px; left: 3275px; width: 70px;"></div>
-    <div id="w20pm" class="via v-abajo" data-nombre="20" style="top: 950px; left: 3350px; width: 30px;"></div>
-    <div id="w20plus" class="via v-abajo" data-nombre="" style="top: 950px; left: 3380px; width: 95px;"></div>
-    <div id="w20minus" class="via diagonal via-fantasma v-abajo" data-nombre="" style="top: 944px; left: 3386px; width: 65px; height: 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%); transform: rotate(-45deg);"></div>
-    <div id="cz-oli" class="via v-abajo" data-nombre="CDVZ-OLI" style="top: 950px; left: 3480px; width: 205px;"></div>
-    <div id="w24pm" class="via v-abajo" data-nombre="24" style="top: 950px; left: 3690px; width: 70px;"></div>
-    <div id="w24plus" class="via v-abajo" data-nombre="" style="top: 950px; left: 3750px; width: 125px;"></div>
-    <div id="w24minus" class="via diagonal via-fantasma v-abajo" data-nombre="" style="top: 944px; left: 3753px; width: 65px; height: 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%); transform: rotate(-45deg);"></div>
-    <div id="c142" class="via v-abajo" data-nombre="CDV142" style="top: 950px; left: 3880px; width: 115px;"></div>
-    <div id="c144" class="via v-abajo" data-nombre="CDV144" style="top: 950px; left: 4000px; width: 55px;"></div>
-    <div id="c146" class="via v-abajo" data-nombre="CDV146" style="top: 950px; left: 4060px; width: 165px;"></div>
-    <div id="c148" class="via v-abajo" data-nombre="CDV148" style="top: 950px; left: 4230px; width: 85px;"></div>
-    <div id="c150" class="via v-abajo" data-nombre="CDV150" style="top: 950px; left: 4320px; width: 90px;"></div>
-
-    <!-- SEÑALES PRINCIPALES INTERACTIVAS -->
-    <div id="s129_base" class="senal-unificada f-rojo" style="top: 780px; left: 2780px;"><div class="s-nombre-real">129</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="sA-LOP_base"  class="senal-unificada f-rojo" style="top: 780px; left: 2960px; cursor: pointer;"><div class="s-nombre-real">A-LOP</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s133_base" class="senal-unificada f-rojo" style="top: 780px; left: 3148px;"><div class="s-nombre-real">133</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s135_base" class="senal-unificada f-rojo" style="top: 780px; left: 3228px;"><div class="s-nombre-real">135</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="sA-OLI_base"  class="senal-unificada f-rojo" style="top: 780px; left: 3330px; cursor: pointer;"><div class="s-nombre-real">A-OLI</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="sB-OLI_base"  class="senal-unificada f-rojo" style="top: 780px; left: 3695px; cursor: pointer;"><div class="s-nombre-real">B-OLI</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s141_base" class="senal-unificada f-rojo" style="top: 780px; left: 3955px;"><div class="s-nombre-real">141</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s143_base" class="senal-unificada f-rojo" style="top: 780px; left: 4025px;"><div class="s-nombre-real">143</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s145_base" class="senal-unificada f-rojo" style="top: 780px; left: 4215px;"><div class="s-nombre-real">145</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s147_base" class="senal-unificada f-rojo" style="top: 780px; left: 4300px;"><div class="s-nombre-real">147</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s149_base" class="senal-unificada f-rojo" style="top: 780px; left: 4380px;"><div class="s-nombre-real">149</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-
-    <div id="s130_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 2765px;"><div class="s-nombre-real">130</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="sZ-LOP_base"  class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 3045px; cursor: pointer;"><div class="s-nombre-real">Z-LOP</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s134_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 3140px;"><div class="s-nombre-real">134</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s136_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 3235px;"><div class="s-nombre-real">136</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="sY-OLI_base"  class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 3445px; cursor: pointer;"><div class="s-nombre-real">Y-OLI</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="sZ-OLI_base"  class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 3840px; cursor: pointer;"><div class="s-nombre-real">Z-OLI</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s142_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 3965px;"><div class="s-nombre-real">142</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s144_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 4025px;"><div class="s-nombre-real">144</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s146_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 4190px;"><div class="s-nombre-real">146</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s148_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 4280px;"><div class="s-nombre-real">148</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-
-    <!-- SEÑALES ENANAS DE MANIOBRA INTERACTIVAS -->
-    <div id="s21a_base"  class="senal-unificada f-rojo nombre-s-abajo enana" style="top: 865px; left: 3510px; cursor: pointer;"><div class="s-nombre-real">21A</div><div class="s-grafico-real" style="transform: scaleX(-1); display: flex; justify-content: center;"><div class="t-girada">T</div><div class="curva-led"></div></div></div>
-    <div id="s20a_base"  class="senal-unificada f-rojo enana" style="top: 915px; left: 3350px; cursor: pointer;"><div class="s-nombre-real">20A</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="curva-led"></div></div></div>
-
-    <div id="s25a_base"  class="senal-unificada f-rojo nombre-s-abajo enana" style="top: 865px; left: 3865px; cursor: pointer;"><div class="s-nombre-real">25A</div><div class="s-grafico-real" style="transform: scaleX(-1); display: flex; justify-content: center;"><div class="t-girada">T</div><div class="curva-led"></div></div></div>
-    <div id="s24a_base"  class="senal-unificada f-rojo enana" style="top: 915px; left: 3690px; cursor: pointer;"><div class="s-nombre-real">24A</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="curva-led"></div></div></div>
-
-    <!-- ENCLAVAMIENTOS Y CAMBIOS -->
-    <div style="position: absolute; top: 797px; left: 3312px; text-align: center;"><div id="ESAO" class="led-enclav enclav-senal"></div></div>
-    <div style="position: absolute; top: 797px; left: 3675px; text-align: center;"><div id="ESBO" class="led-enclav enclav-senal"></div></div>
-    <div style="position: absolute; top: 995px; left: 3880px; text-align: center;"><div id="ESZO" class="led-enclav enclav-senal"></div></div>
-    <div style="position: absolute; top: 995px; left: 3485px; text-align: center;"><div id="ESYO" class="led-enclav enclav-senal"></div></div>
-
-    <div style="position: absolute; top: 947px; left: 2938px; text-align: center;"><div id="EW132" class="led-enclav enclav-cambio"></div></div>
-    <div style="position: absolute; top: 848px; left: 3030px; text-align: center;"><div id="EW131" class="led-enclav enclav-cambio"></div></div>
-
-    <div style="position: absolute; top: 947px; left: 3372px; text-align: center;"><div id="EW20"  class="led-enclav enclav-cambio"></div></div>
-    <div style="position: absolute; top: 848px; left: 3468px; text-align: center;"><div id="EW21"  class="led-enclav enclav-cambio"></div></div>
-    <div style="position: absolute; top: 848px; left: 3835px; text-align: center;"><div id="EW25"  class="led-enclav enclav-cambio"></div></div>
-    <div style="position: absolute; top: 947px; left: 3740px; text-align: center;"><div id="EW24"  class="led-enclav enclav-cambio"></div></div>
-
-    <div class="nombre-cambio"  style="top: 827px; left: 3451px;">w21</div>
-    <div class="nombre-cambio"  style="top: 970px; left: 3393px;">w20</div>
-    <div class="nombre-cambio"  style="top: 827px; left: 3823px;">w25</div>
-    <div class="nombre-cambio"  style="top: 970px; left: 3743px;">w24</div>
-
-    <!-- PASOS A NIVEL -->
-    <div class="pan-etiqueta" style="top: 730px; left: 3070px;">ROCA</div><div class="pan-rect" style="top: 650px; left: 3050px;"></div>
-    <div class="ind-pan-container" style="top: 1060px; left: 3050px;"><div id="B_ROC_A" class="ind-alto"></div><div id="B_ROC_B" class="ind-bajo"></div></div>
-
-    <div class="pan-etiqueta" style="top: 730px; left: 3130px;">S.MARTIN</div><div class="pan-rect" style="top: 650px; left: 3110px;"></div>
-    <div class="ind-pan-container" style="top: 1060px; left: 3110px;"><div id="B_SMA_A" class="ind-alto"></div><div id="B_SMA_B" class="ind-bajo"></div></div>
-
-    <div class="pan-etiqueta" style="top: 730px; left: 3200px;">H.YRIGOYEN</div><div class="pan-rect" style="top: 650px; left: 3180px;"></div>
-    <div class="ind-pan-container" style="top: 1060px; left: 3180px;"><div id="B_HYR_A" class="ind-alto"></div><div id="B_HYR_B" class="ind-bajo"></div></div>
-
-    <div class="pan-etiqueta" style="top: 730px; left: 3260px;">MALAVER</div><div class="pan-rect" style="top: 650px; left: 3240px;"></div>
-    <div class="ind-pan-container" style="top: 1060px; left: 3240px;"><div id="B_MAL_A" class="ind-alto"></div><div id="B_MAL_B" class="ind-bajo"></div></div>
-
-    <div class="pan-etiqueta" style="top: 730px; left: 3310px;">VILLATE</div><div class="pan-rect" style="top: 650px; left: 3290px;"></div>
-    <div class="ind-pan-container" style="top: 1060px; left: 3290px;"><div id="B_VIL_A" class="ind-alto"></div><div id="B_VIL_B" class="ind-bajo"></div></div>
-
-    <div class="pan-etiqueta" style="top: 730px; left: 3520px;">CORRIENTES</div><div class="pan-rect" style="top: 650px; left: 3500px;"></div>
-    <div class="ind-pan-container" style="top: 1060px; left: 3500px;"><div id="B_COR_A" class="ind-alto"></div><div id="B_COR_B" class="ind-bajo"></div></div>
-
-    <div class="pan-etiqueta" style="top: 730px; left: 3990px;">ROMA</div><div class="pan-rect" style="top: 650px; left: 3970px;"></div>
-    <div class="ind-pan-container" style="top: 1060px; left: 3970px;"><div id="B_ROM_A" class="ind-alto"></div><div id="B_ROM_B" class="ind-bajo"></div></div>
-
-    <div class="pan-etiqueta" style="top: 730px; left: 4210px;">D.VELEZ</div><div class="pan-rect" style="top: 650px; left: 4190px;"></div>
-    <div class="ind-pan-container" style="top: 1060px; left: 4190px;"><div id="B_DVE_A" class="ind-alto"></div><div id="B_DVE_B" class="ind-bajo"></div></div>
-
-    <div class="pan-etiqueta" style="top: 730px; left: 4370px;">PACHECO</div><div class="pan-rect" style="top: 650px; left: 4350px;"></div>
-    <div class="ind-pan-container" style="top: 1060px; left: 4350px;"><div id="B_PAC_A" class="ind-alto"></div><div id="B_PAC_B" class="ind-bajo"></div></div>
-
-    <div class="linea-limite linea-v" style="top: 820px; left: 3330px; height: 85px;"></div>
-    <div class="linea-limite linea-h" style="top: 905px; left: 3270px; width: 60px;"></div>
-    <div class="linea-limite linea-v" style="top: 905px; left: 3270px; height: 200px;"></div>
-
-    <div class="linea-limite linea-v" style="top: 820px; left: 3955px; height: 85px;"></div>
-    <div class="linea-limite linea-h" style="top: 905px; left: 3875px; width: 80px;"></div>
-    <div class="linea-limite linea-v" style="top: 905px; left: 3875px; height: 200px;"></div>
+    <div style="position: absolute; top: 797px; left: 675px; text-align: center;"><div id="ESAB" class="led-enclav enclav-senal"></div></div>
+    <div style="position: absolute; top: 797px; left: 880px; text-align: center;"><div id="ESBB" class="led-enclav enclav-senal"></div></div>
+    <div style="position: absolute; top: 995px; left: 1170px; text-align: center;"><div id="ESZB" class="led-enclav enclav-senal"></div></div>
+    <div style="position: absolute; top: 995px; left: 720px; text-align: center;"><div id="ESYB" class="led-enclav enclav-senal"></div></div>
 
 </div>
 
-<!-- FIREBASE SCRIPTS Y LÓGICA -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
-    window.addEventListener('load', function() {
-        window.scrollTo(2700, 400);
-        anclarNombres();
-    });
+window.addEventListener('load', function() {
+    window.scrollTo(0, 400);
+    anclarNombres();
+});
 
-    var firebaseConfig = {
-        apiKey: "AIzaSyC2V...", 
-        authDomain: "mi-ctc-ferroviario.firebaseapp.com",
-        databaseURL: "https://mi-ctc-ferroviario-default-rtdb.firebaseio.com",
-        projectId: "mi-ctc-ferroviario",
-        storageBucket: "mi-ctc-ferroviario.appspot.com",
-        messagingSenderId: "367332213795",
-        appId: "1:367332213795:web:53177699e19cc174542289"
-    };
+var firebaseConfig = {
+    apiKey: "AIzaSyC2V...", 
+    authDomain: "mi-ctc-ferroviario.firebaseapp.com",
+    databaseURL: "https://mi-ctc-ferroviario-default-rtdb.firebaseio.com",
+    projectId: "mi-ctc-ferroviario",
+    storageBucket: "mi-ctc-ferroviario.appspot.com",
+    messagingSenderId: "367332213795",
+    appId: "1:367332213795:web:53177699e19cc174542289"
+};
 
-    firebase.initializeApp(firebaseConfig);
-    var db = firebase.database();
+firebase.initializeApp(firebaseConfig);
+var db = firebase.database();
 
-    const TABLA_CAMBIOS = {
-        "W20": { pm: 'w20pm', plus: 'w20plus', minus: 'w20minus' },
-        "W21": { pm: 'w21pm', plus: 'w21plus', minus: 'w21minus' },
-        "W24": { pm: 'w24pm', plus: 'w24plus', minus: 'w24minus' },
-        "W25": { pm: 'w25pm', plus: 'w25plus', minus: 'w25minus' },
-        "W131": { pm: 'w131pm', plus: 'w131plus', minus: 'w131minus' },
-        "W132": { pm: 'w132pm', plus: 'w132plus', minus: 'w132minus' }
+const TABLA_CAMBIOS = {
+    "W1": { pm: 'w1pm', plus: 'w1plus', minus: 'w1minus' },
+    "W2": { pm: 'w2pm', plus: 'w2plus', minus: 'w2minus' }
+};
+
+var tic = true;
+var curW = "1"; var flagAveria_Bel = 0; var w1_ocupado = false; var w2_ocupado = false;
+
+function procesarCambioGeneral(id, conf, pos, estadoVia, averia, tic) {
+    const pm = document.getElementById(conf.pm);
+    const plus = document.getElementById(conf.plus);
+    const minus = document.getElementById(conf.minus);
+    if (!pm || !plus || !minus) return;
+
+    const estadosCss = {
+        0: 'libreconI',
+        1: 'ocupado',
+        2: 'libresinI',
+        4: 'maniobra'
     };
     
-    var tic = true;
-    var flagAveria_Nuz2021 = 0, flagAveria_Nuz2425 = 0, flagAveria_Nuz132131 = 0;
-    var w20_estado = 0, w21_estado = 0, w24_estado = 0, w25_estado = 0, w131_estado = 0, w132_estado = 0;
-    var curW20 = "1", curW21 = "1", curW24 = "1", curW25 = "1", curW131 = "1", curW132 = "1";
+    const colorEstado = estadosCss[estadoVia] || 'libreconI';
+    const parpadeo = (averia && tic);
 
-    var estadoCDV1 = 0, estadoCDV2 = 0;
-    var cdvSeleccionado = null, senalSeleccionada = null, viaAsociadaSeleccionada = null, agujaSeleccionada = null, enanaSeleccionada = null;
-    var estadoViasOlivos = {}, estadoSenalesOlivos = {}, estadoEnclavamientosOlivos = {};
-    var timerCartelCD = null;
+    [pm, plus, minus].forEach(el => el.classList.remove('via-fantasma', 'ocupado', 'libreconI', 'libresinI', 'maniobra'));
 
-    function hayManiobraActiva() {
-        var activa = false;
-        ['20A', '24A', '25A', '21A'].forEach(function(enana) {
-            var valEnana = Number(estadoSenalesOlivos["s" + enana] || estadoSenalesOlivos[enana] || estadoSenalesOlivos["s" + enana.toLowerCase()] || 0);
-            if (valEnana === 2) activa = true;
-        });
-        return activa;
+    if (pos == 1) {
+        minus.classList.add('via-fantasma');
+        if (parpadeo) {
+            [pm, plus].forEach(el => el.classList.add('via-fantasma'));
+        } else {
+            [pm, plus].forEach(el => el.classList.add(colorEstado));
+        }
+    } else {
+        plus.classList.add('via-fantasma');
+        if (parpadeo) {
+            [pm, minus].forEach(el => el.classList.add('via-fantasma'));
+        } else {
+            [pm, minus].forEach(el => el.classList.add(colorEstado));
+        }
     }
+};
 
-    function procesarCambioGeneral(id, conf, pos, estadoVia, averia, tic) {
-        const pm = document.getElementById(conf.pm);
-        const plus = document.getElementById(conf.plus);
-        const minus = document.getElementById(conf.minus);
-        if (!pm || !plus || !minus) return;
+setInterval(function() {
+    tic = !tic;
 
-        const estadosCss = { 0: 'libreconI', 1: 'ocupado', 2: 'libresinI', 4: 'maniobra', 5: 'libredeslizamiento' };
-        const colorEstado = estadosCss[estadoVia] || 'libreconI';
-        const parpadeo = (averia && tic);
+    procesarCambioGeneral("W1", TABLA_CAMBIOS["W1"], curW, w1_estado, flagAveria_Bel == 1, tic);
+    procesarCambioGeneral("W2", TABLA_CAMBIOS["W2"], curW, w2_estado, flagAveria_Bel == 1, tic);
 
-        [pm, plus, minus].forEach(el => el.classList.remove('via-fantasma', 'ocupado', 'libreconI', 'libresinI', 'maniobra', 'libredeslizamiento'));
+    pW();
+}, 500);
 
-        if (pos == 1 || pos == "1") { 
-            minus.classList.add('via-fantasma');
-            if (parpadeo) {
-                [pm, plus].forEach(el => el.classList.add('via-fantasma'));
-            } else {
-                [pm, plus].forEach(el => el.classList.add(colorEstado));
-            }
-        } else { 
-            plus.classList.add('via-fantasma');
-            if (parpadeo) {
-                [pm, minus].forEach(el => el.classList.add('via-fantasma'));
-            } else {
-                [pm, minus].forEach(el => el.classList.add(colorEstado));
-            }
+function pW() {
+    var v1p = document.getElementById('w1plus'), v1m = document.getElementById('w1minus'), v1pm = document.getElementById('w1pm');
+    var v2p = document.getElementById('w2plus'), v2m = document.getElementById('w2minus'), v2pm = document.getElementById('w2pm');
+    var lp = document.getElementById('LW12P'), lm = document.getElementById('LW12M');
+    var lAveria = document.getElementById('AW12');
+
+    if(!v1p || !v2p || !v1pm || !v2pm) return;
+    
+    if(lAveria) {
+        if (flagAveria_Bel == 1) {
+            lAveria.classList.add('l-red');
+        } else {
+            lAveria.classList.remove('l-red');
         }
     }
 
-    setInterval(function() {
-        tic = !tic;
-        procesarCambioGeneral("W20", TABLA_CAMBIOS["W20"], curW20, w20_estado, flagAveria_Nuz2021 == 1, tic);
-        procesarCambioGeneral("W21", TABLA_CAMBIOS["W21"], curW21, w21_estado, flagAveria_Nuz2021 == 1, tic);
-        procesarCambioGeneral("W24", TABLA_CAMBIOS["W24"], curW24, w24_estado, flagAveria_Nuz2425 == 1, tic);
-        procesarCambioGeneral("W25", TABLA_CAMBIOS["W25"], curW25, w25_estado, flagAveria_Nuz2425 == 1, tic);
-        procesarCambioGeneral("W131", TABLA_CAMBIOS["W131"], curW131, w131_estado, flagAveria_Nuz132131 == 1, tic);
-        procesarCambioGeneral("W132", TABLA_CAMBIOS["W132"], curW132, w132_estado, flagAveria_Nuz132131 == 1, tic);
-
-        Object.keys(panesGeneral).forEach(function(nombrePan) { actualizarPAN(nombrePan); });
-        pW();
-    }, 500);
-
-    function actualizarPAN(nombrePan) {
-        var p = panesGeneral[nombrePan];  
-        if (!p) return;
-        var elAlto = document.getElementById(p.idAlto);
-        var elBajo = document.getElementById(p.idBajo);
-        if (!elAlto || !elBajo) return;
-
-        elAlto.className = "ind-alto";
-        elBajo.className = "ind-bajo";
-
-        var mostrarLuz = (Number(p.av) === 0) ? tic : true;
-        if (!mostrarLuz) return;
-
-        if (Number(p.pos) === 0) elAlto.classList.add('pan-amarillo-on');
-        else if (Number(p.pos) === 1) elBajo.classList.add('pan-rojo-on');
+    if(lp) { 
+        lp.className = "led-rd"; 
+        if (curW == "1" || curW == 1) lp.classList.add('l-white'); 
     }
+    if(lm) { 
+        lm.className = "led-rd"; 
+        if (curW != "1" && curW != 1) lm.classList.add('l-white'); 
+    }
+    
+    [v1p, v1m, v1pm, v2p, v2m, v2pm].forEach(el => {
+        if(el) el.classList.remove('via-fantasma');
+    });
 
-    function pW() {
-        var lp2021 = document.getElementById('LW2021P'), lm2021 = document.getElementById('LW2021M'), la2021 = document.getElementById('AW2021');
-        var lp2425 = document.getElementById('LW2425P'), lm2425 = document.getElementById('LW2425M'), la2425 = document.getElementById('AW2425');
-        var lp131 = document.getElementById('LW132131P'), lm131 = document.getElementById('LW132131M'), la131 = document.getElementById('AW132131');
-
-        if(la2021) la2021.className = flagAveria_Nuz2021 == 1 ? "led-rd l-red" : "led-rd";
-        if(la2425) la2425.className = flagAveria_Nuz2425 == 1 ? "led-rd l-red" : "led-rd";
-        if(la131) la131.className = flagAveria_Nuz132131 == 1 ? "led-rd l-red" : "led-rd";
-
-        if(lp2021) lp2021.className = (curW20 == "1" && curW21 == "1") ? "led-rd l-white" : "led-rd";
-        if(lm2021) lm2021.className = (curW20 != "1" || curW21 != "1") ? "led-rd l-white" : "led-rd";
+    if (curW === "1" || curW === 1) {
+        if(v1m) v1m.classList.add('via-fantasma'); 
+        if(v2m) v2m.classList.add('via-fantasma');
         
-        if(lp2425) lp2425.className = (curW24 == "1" && curW25 == "1") ? "led-rd l-white" : "led-rd";
-        if(lm2425) lm2425.className = (curW24 != "1" || curW25 != "1") ? "led-rd l-white" : "led-rd";
-
-        if(lp131) lp131.className = (curW131 == "1" && curW132 == "1") ? "led-rd l-white" : "led-rd";
-        if(lm131) lm131.className = (curW131 != "1" || curW132 != "1") ? "led-rd l-white" : "led-rd";
+        if (flagAveria_Bel == 1 && tic) {
+            if(v1pm) v1pm.classList.add('via-fantasma'); if(v1p) v1p.classList.add('via-fantasma');
+            if(v2pm) v2pm.classList.add('via-fantasma'); if(v2p) v2p.classList.add('via-fantasma');
+        }
+    } else {
+        if(v1p) v1p.classList.add('via-fantasma'); 
+        if(v2p) v2p.classList.add('via-fantasma');
+        
+        if (flagAveria_Bel == 1 && tic) {
+            if(v1pm) v1pm.classList.add('via-fantasma'); if(v1m) v1m.classList.add('via-fantasma');
+            if(v2pm) v2pm.classList.add('via-fantasma'); if(v2m) v2m.classList.add('via-fantasma');
+        }
     }
 
-    function estaCambioEnclavado() {
-        if (estadoCDV1 === 1 || estadoCDV2 === 1) return true;
-        if (estadoEnclavamientosOlivos["EW20"] == 1 || estadoEnclavamientosOlivos["EW21"] == 1 || estadoEnclavamientosOlivos["EW24"] == 1 || estadoEnclavamientosOlivos["EW25"] == 1) return true;
-        return false;
+    if (typeof viasEstadoBel !== 'undefined') {
+        Object.keys(viasEstadoBel).forEach(function(id) {
+            if(!["w1plus", "w1minus", "w2plus", "w2minus", "w1pm", "w2pm"].includes(id)) {
+                var el = document.getElementById(id); 
+                if(el) {
+                    el.classList.toggle('libre', viasEstadoBel[id] === 0);
+                    el.classList.toggle('ocupado', viasEstadoBel[id] === 1);
+                }
+            }
+        });
+    }
+}
+
+function procesarEnclavamientosCambios(datosEnclav) {
+    if (!datosEnclav) return;
+    
+    var parejasCambios = [
+        { ids: ["EW1", "EW2"], claves: ["EW1", "ew1", "EW2", "ew2"] }
+    ];
+
+    function aplicarEstilo(el, activo) {
+        if (!el) return;
+        el.style.position = "relative";
+        el.style.zIndex = "9999"; 
+
+        if (activo) {
+            el.style.backgroundColor = "#0000FF"; 
+            el.style.borderColor = "#0000FF"; 
+            el.style.boxShadow = "0 0 14px #0000FF";
+        } else {
+            el.style.backgroundColor = "#ffffff"; 
+            el.style.borderColor = "#ffffff"; 
+            el.style.boxShadow = "none";
+        }
     }
 
-    function procesarEnclavamientosCambios(datosEnclav) {
-        if (!datosEnclav) datosEnclav = {};
-        estadoEnclavamientosOlivos = datosEnclav;
+    parejasCambios.forEach(function(pareja) {
+        var encontrado = false; var estadoActive = false;
+        pareja.claves.forEach(function(clave) {
+            if (datosEnclav[clave] !== undefined) {
+                encontrado = true;
+                if (datosEnclav[clave] == 1) estadoActive = true;
+            }
+        });
 
-        var parejasCambios = [
-            { ids: ["EW20", "EW21"], claves: ["EW20", "ew20", "EW21", "ew21", "W20", "W21"] },
-            { ids: ["EW24", "EW25"], claves: ["EW24", "ew24", "EW25", "ew25", "W24", "W25"] },
-            { ids: ["EW132", "EW131"], claves: ["EW132", "ew132", "EW131", "ew131", "W132", "W131"] }
-
-        ];
-
-        parejasCambios.forEach(function(pareja) {
-            var enclavado = false;
-            pareja.claves.forEach(function(clave) {
-                if (datosEnclav[clave] == 1 || datosEnclav[clave] == "1") enclavado = true;
-            });
+        if (encontrado) {
             pareja.ids.forEach(function(idHtml) {
                 var el = document.getElementById(idHtml);
-                if (el) {
-                    el.style.backgroundColor = enclavado ? "#0000FF" : "#ffffff";
-                    el.style.borderColor = enclavado ? "#0000FF" : "#ffffff";
-                    el.style.boxShadow = enclavado ? "0 0 14px #0000FF" : "none";
-                }
+                aplicarEstilo(el, estadoActive);
             });
-        });
-
-        var enclavamientosSenales = [
-            { id: "ESAO", claves: ["ESAO", "esao", "sA-OLI", "A-OLI"] },
-            { id: "ESBO", claves: ["ESBO", "esbo", "sB-OLI", "B-OLI"] },
-            { id: "ESZO", claves: ["ESZO", "eszo", "sZ-OLI", "Z-OLI"] },
-            { id: "ESYO", claves: ["ESYO", "esyo", "sY-OLI", "Y-OLI"] }
-        ];
-
-        enclavamientosSenales.forEach(function(item) {
-            var enclavadoSeñal = false;
-            item.claves.forEach(function(clave) {
-                if (datosEnclav[clave] == 1 || datosEnclav[clave] == "1") enclavadoSeñal = true;
-            });
-            var elSeñal = document.getElementById(item.id);
-            if (elSeñal) {
-                elSeñal.style.backgroundColor = enclavadoSeñal ? "#0000FF" : "#ffffff";
-                elSeñal.style.borderColor = enclavadoSeñal ? "#0000FF" : "#ffffff";
-                elSeñal.style.boxShadow = enclavadoSeñal ? "0 0 14px #0000FF" : "none";
-            }
-        });
-    }
-
-    function procesarDatosTrafico(datosTrafico, sufijoPanel) {
-        if (!datosTrafico) return;
-        if (sufijoPanel === "O") {
-            if (datosTrafico["CDV1"] !== undefined) estadoCDV1 = Number(datosTrafico["CDV1"]);
-            if (datosTrafico["CDV2"] !== undefined) estadoCDV2 = Number(datosTrafico["CDV2"]);
         }
+    });
 
-        var mapeoLeds = { "CDV1": "led-CDV1_" + sufijoPanel, "CDV2": "led-CDV2_" + sufijoPanel, "RF": "led-RF_" + sufijoPanel, "RU": "led-RU_" + sufijoPanel };
-        Object.keys(mapeoLeds).forEach(function(claveKey) {
-            var ledEl = document.getElementById(mapeoLeds[claveKey]);
-            if (ledEl) {
-                var valor = datosTrafico[claveKey] !== undefined ? datosTrafico[claveKey] : datosTrafico[claveKey.toLowerCase()];
-                if (valor === 1 || valor === "1" || valor === true) {
-                    ledEl.className = (claveKey === "CDV1" || claveKey === "CDV2") ? "led-10mm l-on-w" : "led-10mm l-on-b";
-                } else {
-                    ledEl.className = "led-10mm";
-                }
+    Object.keys(datosEnclav).forEach(function(idId) {
+        if (!idId.toUpperCase().startsWith("EW")) {
+            var elEnc = document.getElementById(idId);
+            if (elEnc) {
+                aplicarEstilo(elEnc, datosEnclav[idId] == 1);
             }
-        });
-    }
+        }
+    });
+}
 
-    function procesarBloqueSenales(dataSenales) {
-        if(!dataSenales) return;
-        estadoSenalesOlivos = dataSenales;
-
-        Object.keys(dataSenales).forEach(function(clave) {
-            var idHtmlBase = clave.trim() + '_base';
-            var base = document.getElementById(idHtmlBase) || document.getElementById(clave.toLowerCase() + '_base') || document.getElementById(clave.toUpperCase() + '_base');
-            if(base) {
-                var estado = Number(dataSenales[clave]);
-                base.classList.remove('f-rojo', 'f-verde', 'f-maniobra');
-                if(estado === 1) base.classList.add('f-verde');
-                else if(estado === 2) base.classList.add('f-maniobra');
-                else base.classList.add('f-rojo');
-            }
-        });
-    }
-
-    var panesGeneral = {
-        "RAMALLO":     { pos: 0, av: 1, idAlto: 'B_RAM_A', idBajo: 'B_RAM_B' },
-        "ZUFRIATEGUI": { pos: 0, av: 1, idAlto: 'B_ZUF_A', idBajo: 'B_ZUF_B' },
-        "LAPRIDA":     { pos: 0, av: 1, idAlto: 'B_LAP_A', idBajo: 'B_LAP_B' },
-        "ROCA":        { pos: 0, av: 1, idAlto: 'B_ROC_A', idBajo: 'B_ROC_B' },
-        "SAN MARTIN":  { pos: 0, av: 1, idAlto: 'B_SMA_A', idBajo: 'B_SMA_B' },
-        "H.YRIGOYEN":  { pos: 0, av: 1, idAlto: 'B_HYR_A', idBajo: 'B_HYR_B' },
-        "MALAVER":     { pos: 0, av: 1, idAlto: 'B_MAL_A', idBajo: 'B_MAL_B' },
-        "VILLATE":     { pos: 0, av: 1, idAlto: 'B_VIL_A', idBajo: 'B_VIL_B' },
-        "CORRIENTES":  { pos: 0, av: 1, idAlto: 'B_COR_A', idBajo: 'B_COR_B' },
-        "ROMA":        { pos: 0, av: 1, idAlto: 'B_ROM_A', idBajo: 'B_ROM_B' },
-        "DIAZ VELEZ":  { pos: 0, av: 1, idAlto: 'B_DVE_A', idBajo: 'B_DVE_B' },
-        "PACHECO":     { pos: 0, av: 1, idAlto: 'B_PAC_A', idBajo: 'B_PAC_B' }
+function procesarDatosTrafico(datosTrafico, sufijoPanel) {
+    if (!datosTrafico) return;
+    
+    var mapeoLeds = {
+        "CDV1": "led-CDV1_" + sufijoPanel, "CDV2": "led-CDV2_" + sufijoPanel,
+        "RF":   "led-RF_" + sufijoPanel,     "RU":   "led-RU_" + sufijoPanel
     };
-
-    db.ref('cabinas/olivos').on('value', function(snapshot) {
-        var dataOli = snapshot.val();
-        if(!snapshot.exists() || !dataOli) return;
-
-        var led = document.getElementById('indicadorOlivos');
-        if (led && dataOli.status) {
-            led.className = Number(dataOli.status.status) === 1 ? 'led-status led-on' : 'led-status led-off';
-
-            var traficoVL = dataOli.trafico_vlopez || (dataOli.trafico ? dataOli.trafico.vlopez : null);
-            procesarDatosTrafico(traficoVL, "VL");
-
-            var traficoLL = dataOli.trafico_lucila || (dataOli.trafico ? dataOli.trafico.lucila : null);
-            procesarDatosTrafico(traficoLL, "LL");
-        }
-
-        if(dataOli.vias) {
-            estadoViasOlivos = dataOli.vias;
-            Object.keys(dataOli.vias).forEach(function(id) {
-                var val = dataOli.vias[id];
-                var idL = id.toLowerCase().trim();
-                var el = document.getElementById(id) || document.getElementById(idL) || document.getElementById(id.toUpperCase()) || document.getElementById("c" + idL);
-                
-                if(!el) {
-                    if(idL === "ca-oli") el = document.getElementById("ca-oli");
-                    if(idL === "cb-oli") el = document.getElementById("cb-oli");
-                    if(idL === "cy-Oli") el = document.getElementById("cy-Oli");
-                    if(idL === "cz-oli") el = document.getElementById("cz-oli");
-                }
-                if (el) { setEstadoCircuito(el.id, val); }
-            });
-
-            if(dataOli.vias["w21pm"] !== undefined) w21_estado = dataOli.vias["w21pm"];
-            if(dataOli.vias["w20pm"] !== undefined) w20_estado = dataOli.vias["w20pm"];
-            if(dataOli.vias["w25pm"] !== undefined) w25_estado = dataOli.vias["w25pm"];
-            if(dataOli.vias["w24pm"] !== undefined) w24_estado = dataOli.vias["w24pm"];
-            if(dataOli.vias["w131pm"] !== undefined) w131_estado = dataOli.vias["w131pm"];
-            if(dataOli.vias["w132pm"] !== undefined) w132_estado = dataOli.vias["w132pm"];
-        }
-
-        if (dataOli.senales) procesarBloqueSenales(dataOli.senales);
-
-        if (dataOli.cambios) {
-            if (dataOli.cambios.W2021 !== undefined) { let v = dataOli.cambios.W2021.toString(); curW20 = v; curW21 = v; }
-            if (dataOli.cambios.W2425 !== undefined) { let v = dataOli.cambios.W2425.toString(); curW24 = v; curW25 = v; }
-            if (dataOli.cambios.W132131 !== undefined) { let v = dataOli.cambios.W132131.toString(); curW131 = v; curW132 = v; }
-            if (dataOli.cambios.AW2021 !== undefined) flagAveria_Nuz2021 = parseInt(dataOli.cambios.AW2021);
-            if (dataOli.cambios.AW2425 !== undefined) flagAveria_Nuz2425 = parseInt(dataOli.cambios.AW2425);
-            if (dataOli.cambios.AW132131 !== undefined) flagAveria_Nuz132131 = parseInt(dataOli.cambios.AW132131);
-        }
-
-        procesarEnclavamientosCambios(dataOli.enclavamientos || dataOli);
-        procesarDatosTrafico(dataOli.trafico || dataOli.datos_trafico, "O");
-
-        var datosPanesOli = dataOli.panes || {};
-        Object.keys(datosPanesOli).forEach(function(nombrePan) {
-            var infoPan = datosPanesOli[nombrePan];
-            if (panesGeneral[nombrePan] && infoPan) {
-                if (infoPan.ESTADO !== undefined) panesGeneral[nombrePan].pos = Number(infoPan.ESTADO);
-                if (infoPan.AV !== undefined) panesGeneral[nombrePan].av = Number(infoPan.AV);
+    
+    Object.keys(mapeoLeds).forEach(function(claveKey) {
+        var ledEl = document.getElementById(mapeoLeds[claveKey]);
+        if (ledEl) {
+            var valor = datosTrafico[claveKey] !== undefined ? datosTrafico[claveKey] : datosTrafico[claveKey.split('').join('.')];
+            if (valor === 1 || valor === "1") {
+                ledEl.className = (claveKey === "CDV1" || claveKey === "CDV2") ? "led-10mm l-on-w" : "led-10mm l-on-b";
+            } else {
+                ledEl.className = "led-10mm";
             }
-        });
-
-        pW();
+        }
     });
+}
 
-    db.ref('cabinas/trafico_vlopez').on('value', function(snapshot) {
-        var dataVL = snapshot.val();
-        if (dataVL) procesarDatosTrafico(dataVL, "VL");
-    });
+function procesarBloqueSenales(dataSenales) {
+    if(!dataSenales) return;
+    Object.keys(dataSenales).forEach(function(id) {
+        var idHtml = id.trim();
+        var base = document.getElementById(idHtml + '_base') || document.getElementById(idHtml.toLowerCase() + '_base') || document.getElementById(idHtml.toUpperCase() + '_base');
+        
+        if(!base) {
+            var idL = idHtml.toLowerCase();
+            if(idL === "sa-bel") base = document.getElementById("sA-BEL_base");
+            if(idL === "sb-bel") base = document.getElementById("sB-BEL_base");
+            if(idL === "sy-bel") base = document.getElementById("sY-BEL_base");
+            if(idL === "sz-bel") base = document.getElementById("sZ-BEL_base");
+        }
 
-    db.ref('cabinas/trafico_lucila').on('value', function(snapshot) {
-        var dataLL = snapshot.val();
-        if (dataLL) procesarDatosTrafico(dataLL, "LL");
+        if(base) {
+            base.classList.remove('f-rojo', 'f-verde', 'f-maniobra');
+            var estado = dataSenales[id];
+            if(estado === 1 || estado === "1") base.classList.add('f-verde');
+            else if(estado === 2 || estado === "2") base.classList.add('f-maniobra');
+            else base.classList.add('f-rojo');
+        }
     });
+}
+
+db.ref('cabinas').on('value', function(snapshot) {
+    var cabinas = snapshot.val();
+    if(!snapshot.exists() || !cabinas) return;
+
+    var dataBel = cabinas.belgrano;
+
+    if (dataBel && dataBel.status) {
+        var led = document.getElementById('indicadorBelgrano');
+        if (led) {
+            if (Number(dataBel.status.status) === 1) {
+                led.className = 'led-status led-on';
+                window.lastHeartbeatBelgrano = Date.now();
+            } else {
+                led.className = 'led-status led-off';
+            }
+        }
+
+        if (dataBel.vias) {
+            Object.keys(dataBel.vias).forEach(function(id) {
+                var val = dataBel.vias[id];
+                var esOcupado = (val === 1 || val === "1");
+                var idL = id.toLowerCase().trim();
+                var el = document.getElementById(id) || document.getElementById(idL) || document.getElementById(id.toUpperCase()) || document.getElementById("c" + idL) || document.getElementById("cdv" + idL) || document.getElementById("CDV" + id.toUpperCase());
+                
+                if (!el) {
+                    if (idL === "a-bel" || idL === "a-belgrano") el = document.getElementById("a-Bel");
+                    if (idL === "b-bel" || idL === "b-belgrano") el = document.getElementById("b-Bel");
+                    if (idL === "y-bel" || idL === "y-belgrano") el = document.getElementById("y-Bel");
+                    if (idL === "z-bel" || idL === "z-belgrano") el = document.getElementById("z-Bel");
+                    if (idL === "cvt7") el = document.getElementById("CVT7");
+                }
+                if (el) {
+                    if (esOcupado) { el.classList.remove('libre'); el.classList.add('ocupado'); } 
+                    else { el.classList.remove('ocupado'); el.classList.add('libre'); }
+                }
+            });
+            if(dataBel.vias["w1pm"] !== undefined) w1_estado = dataBel.vias["w1pm"];
+            if(dataBel.vias["w2pm"] !== undefined) w2_estado = dataBel.vias["w2pm"];
+        }
+        if (dataBel.senales) { procesarBloqueSenales(dataBel.senales); }
+        if (dataBel.cambios) {
+            if (dataBel.cambios.W12 !== undefined) curW = dataBel.cambios.W12.toString();
+            if (dataBel.cambios.AW12 !== undefined) flagAveria_Bel = parseInt(dataBel.cambios.AW12);
+        }
+        procesarDatosTrafico(dataBel.trafico || dataBel.datos_trafico, "B");
+        procesarEnclavamientosCambios(dataBel.enclavamientos);
+    }
 
     function setEstadoCircuito(idCircuito, numEstado) {
         const el = document.getElementById(idCircuito);
         if (!el) return;
 
-        const estados = { 3: 'via-fantasma', 0: 'libreconI', 1: 'ocupado', 2: 'libresinI', 4: 'maniobra', 5: 'libredeslizamiento', 6: 'zonasinseñalizar' };
+        const estados = { 
+            3: 'via-fantasma', 0: 'libreconI', 1: 'ocupado', 2: 'libresinI', 
+            4: 'maniobra', 5: 'libredeslizamiento', 6: 'zonasinseñalizar',
+            7: 'CVMXCS', 8: 'CVCRAS', 9: 'BVACVSD'
+        };
+
         const esArriba = el.classList.contains('v-arriba');
         const esAbajo = el.classList.contains('v-abajo');
         const esDiagonal = el.classList.contains('diagonal');
+        const esCambioSiemens = el.classList.contains('cambio-siemens');
         
         let nuevasClases = 'via';
         if (esArriba) nuevasClases += ' v-arriba';
         if (esAbajo) nuevasClases += ' v-abajo';
         if (esDiagonal) nuevasClases += ' diagonal';
+        if (esCambioSiemens) nuevasClases += ' cambio-siemens';
         
         el.className = nuevasClases; 
-        if (estados[numEstado]) el.classList.add(estados[numEstado]);
+        
+        if (estados[numEstado]) {
+            el.classList.add(estados[numEstado]);
+        }
     }
 
-    function cerrarTodosLosMenus() {
-        document.getElementById('menuSiemensAguja').style.display = 'none';
-        document.getElementById('menuSiemensSenal').style.display = 'none';
-        document.getElementById('menuSiemensCD').style.display = 'none';
-        document.getElementById('menuSiemensManiobra').style.display = 'none';
-        ocultarCartelCD();
-    }
-
-    function mostrarCartelAdvertencia(posX, posY, texto) {
-        var cartel = document.getElementById('cartelBloqueoCD');
-        if (!cartel) return;
-        cartel.innerHTML = "🛑 " + texto;
-        cartel.style.left = (posX - 40) + 'px';
-        cartel.style.top = (posY - 35) + 'px';
-        cartel.style.display = 'block';
-        if (timerCartelCD) clearTimeout(timerCartelCD);
-        timerCartelCD = setTimeout(ocultarCartelCD, 3000);
-    }
-
-    function ocultarCartelCD() {
-        var cartel = document.getElementById('cartelBloqueoCD');
-        if (cartel) cartel.style.display = 'none';
-    }
-
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.menu-siemens') && !e.target.closest('.nombre-cambio') && !e.target.closest('.led-enclav') && !e.target.closest('.senal-unificada') && !e.target.closest('.cd-via-panelO')) {
-            cerrarTodosLosMenus();
+    db.ref('cabinas/belgrano/vias').on('value', (snapshot) => {
+        const todosLosCircuitos = snapshot.val();
+        if (todosLosCircuitos) {
+            for (let id in todosLosCircuitos) {
+                setEstadoCircuito(id, todosLosCircuitos[id]);
+            }
         }
     });
 
-    function abrirMenuAguja(event, idAguja, posX, posY) {
-        if (event) event.stopPropagation();
-        cerrarTodosLosMenus();
-        if (estaCambioEnclavado()) {
-            mostrarCartelAdvertencia(posX, posY, "PROHIBIDO: CAMBIO ENCLAVADO");
-            return;
-        }
-        agujaSeleccionada = idAguja;
-        const menu = document.getElementById('menuSiemensAguja');
-        document.getElementById('headerAgujaSiemens').innerText = idAguja.toUpperCase();
-        menu.style.left = posX + 'px';
-        menu.style.top = posY + 'px';
-        menu.style.display = 'block';
+    function enviarCambio(id, estado) {
+        db.ref('cabinas/belgrano/vias/' + id).set(estado);
     }
 
-    function confirmarMoverAguja() {
-        if (!agujaSeleccionada) return;
-        var nuevoEstado = (curW20 == "1") ? 0 : 1;
-        var nombreCambioRef = agujaSeleccionada.includes('20') || agujaSeleccionada.includes('21') ? 'W2021' : (agujaSeleccionada.includes('24') || agujaSeleccionada.includes('25') ? 'W2425' : 'W132131');
-        var nombreAveriaRef = agujaSeleccionada.includes('20') || agujaSeleccionada.includes('21') ? 'AW2021' : (agujaSeleccionada.includes('24') || agujaSeleccionada.includes('25') ? 'AW2425' : 'AW132131');
+});
 
-        var updates = {};
-        updates['cabinas/olivos/cambios/' + nombreAveriaRef] = 1;
-        db.ref().update(updates);
-
-        setTimeout(function() {
-            var updatesFinales = {};
-            updatesFinales['cabinas/olivos/cambios/' + nombreCambioRef] = nuevoEstado;
-            updatesFinales['cabinas/olivos/cambios/' + nombreAveriaRef] = 0;
-            db.ref().update(updatesFinales);
-        }, 10000);
-
-        cerrarTodosLosMenus();
+function obtenerColorPorEstado(estado) {
+    switch(estado) {
+        case 1: return 'ocupado';      // Rojo
+        case 4: return 'maniobra';     // Celeste
+        case 0: return 'libreconI';    // Verde
+        case 2: return 'libresinI';    // Amarillo
+        default: return 'via-fantasma';
     }
+}
 
-    function moverCambioConTiempoSiEsNecesario(nombreCambioRef, nombreAveriaRef, posicionActual, posicionRequerida, callback) {
-        if (posicionActual.toString() !== posicionRequerida.toString()) {
-            var updatesInicio = {};
-            updatesInicio['cabinas/olivos/cambios/' + nombreAveriaRef] = 1;
-            db.ref().update(updatesInicio);
-
-            setTimeout(function() {
-                var updatesFin = {};
-                updatesFin['cabinas/olivos/cambios/' + nombreCambioRef] = posicionRequerida;
-                updatesFin['cabinas/olivos/cambios/' + nombreAveriaRef] = 0;
-                db.ref().update(updatesFin).then(function() {
-                    if (callback) callback();
-                });
-            }, 11000);
+function anclarNombres() {
+    document.querySelectorAll('.via').forEach(via => {
+        if (!via.dataset.nombre) return;
+        
+        const label = document.createElement('span');
+        label.className = 'nombre-via-label';
+        label.innerText = via.dataset.nombre;
+        
+        const container = document.querySelector('.map-container');
+        
+        label.style.left = (via.offsetLeft + (via.offsetWidth / 2)) + 'px';
+        label.style.transform = 'translateX(-50%)';
+        
+        if (via.classList.contains('v-arriba')) {
+            label.style.top = (via.offsetTop - 15) + 'px';
         } else {
-            if (callback) callback();
-        }
-    }
-
-    function abrirMenuCD(event, cdvId, posX, posY) {
-        if (event) event.stopPropagation();
-        cerrarTodosLosMenus();
-        cdvSeleccionado = cdvId;
-        const menu = document.getElementById('menuSiemensCD');
-        const contOpcionesCD = document.getElementById('contenedorOpcionesCD');
-        document.getElementById('headerCDSiemens').innerText = "CIRCULACIÓN DIRECTA - " + cdvId;
-
-        var estadoCdActual = (cdvId === 'CDV1') ? estadoCDV1 : estadoCDV2;
-
-        if (estadoCdActual === 1 || estadoCdActual === "1" || estadoCdActual === true) {
-            contOpcionesCD.innerHTML = `
-                <div class="menu-siemens-item" >Anular ${cdvId}</div>
-            `;
-        } else {
-            contOpcionesCD.innerHTML = `
-                <div class="menu-siemens-item" >Establecer ${cdvId}</div>
-            `;
-        }
-
-        menu.style.left = posX + 'px';
-        menu.style.top = posY + 'px';
-        menu.style.display = 'block';
-    }
-
-    function enviarOrdenCD(estado) {
-        if (!cdvSeleccionado) return;
-        db.ref('cabinas/olivos/trafico/' + cdvSeleccionado).set(estado);
-        cerrarTodosLosMenus();
-    }
-
-    function abrirMenuSenal(event, idSenal, viaAsociada, posX, posY) {
-        if (event) event.stopPropagation();
-        cerrarTodosLosMenus();
-
-        if (hayManiobraActiva()) {
-            mostrarCartelAdvertencia(posX, posY, "PROHIBIDO: RUTA DE MANIOBRA ARMADA");
-            return;
+            label.style.top = (via.offsetTop + 12) + 'px';
         }
         
-        var cdActiva = false;
-        if (viaAsociada === 'CDV1' && estadoCDV1 === 1) cdActiva = true;
-        if (viaAsociada === 'CDV2' && estadoCDV2 === 1) cdActiva = true;
+        container.appendChild(label);
+    });
+}
 
-        if (cdActiva) {
-            mostrarCartelAdvertencia(posX, posY, "PROHIBIDO: CIRCULACIÓN DIRECTA ACTIVA (" + viaAsociada + ")");
-            return;
-        }
-
-        senalSeleccionada = idSenal;
-        viaAsociadaSeleccionada = viaAsociada;
-
-        var idLimpio = idSenal.toUpperCase().replace('S', '').replace('-OLI', '').trim();
-        
-        var enclavadaRuta = false;
-        if (idLimpio === 'A-OLI' || idLimpio === 'A') {
-            if (Number(estadoEnclavamientosOlivos["ESAO"] || 0) === 1) enclavadaRuta = true;
-        } else if (idLimpio === 'B-OLI' || idLimpio === 'B' ) {
-            if (Number(estadoEnclavamientosOlivos["ESBO"] || 0) === 1) enclavadaRuta = true;
-        } else if (idLimpio === 'Z-OLI' || idLimpio === 'Z') {
-            if (Number(estadoEnclavamientosOlivos["ESZO"] || 0) === 1) enclavadaRuta = true;
-        } else if (idLimpio === 'Y-OLI' || idLimpio === 'Y') {
-            if (Number(estadoEnclavamientosOlivos["ESYO"] || 0) === 1) enclavadaRuta = true;
-        }
-
-        var estadoActualSenal = 0;
-        var posiblesClavesSenal = ["s" + idSenal, idSenal, "s" + idLimpio + "-OLI", idLimpio + "-OLI", "s" + idLimpio];
-        for (var i = 0; i < posiblesClavesSenal.length; i++) {
-            if (estadoSenalesOlivos[posiblesClavesSenal[i]] !== undefined) {
-                estadoActualSenal = Number(estadoSenalesOlivos[posiblesClavesSenal[i]]);
-                break;
-            }
-        }
-
-        const menu = document.getElementById('menuSiemensSenal');
-        const contOpciones = document.getElementById('contenedorOpcionesSenal');
-        document.getElementById('headerSenalSiemens').innerText = "SEÑAL " + idSenal;
-
-        if (enclavadaRuta) {
-            if (estadoActualSenal !== 0) {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Establecer señal a peligro</div>
-                `;
-            } else {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Anular ruta</div>
-                `;
-            }
-        } else {
-            // Modificaciones solicitadas para las señales de Olivos
-            if (idLimpio === 'A-OLI' || idLimpio === 'A') {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Establecer ruta FS1A ➔ S B-oli <span>▶</span></div>
-                `;
-            } else if (idLimpio === 'B-OLI' || idLimpio === 'B') {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Establecer ruta FS1B ➔ S141 <span>▶</span></div>
-                `;
-            } else if (idLimpio === 'Z-OLI' || idLimpio === 'Z') {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Establecer ruta FS2Z ➔ S Y-Oli <span>▶</span></div>
-                `;
-            } else if (idLimpio === 'Y-OLI' || idLimpio === 'Y') {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Establecer ruta FS2Y-S136 <span>▶</span></div>
-                `;
-            } else {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Establecer ruta</div>
-                `;
-            }
-        }
-
-        menu.style.left = (posX - 20) + 'px';
-        menu.style.top = (posY - 100) + 'px';
-        menu.style.display = 'block';
-    }
-
-    // ==========================================
-    // 1. RUTAS PRINCIPALES (A-LOP, A-OLI/B-OLI, Z-OLI, Y-OLI)
-    // ==========================================
-    function accionSiemensSenal(tipoAccion) {
-        if (!senalSeleccionada) return;
-        var idLimpio = senalSeleccionada.toUpperCase().replace('S', '').replace('-OLI', '').trim();
-
-        if (tipoAccion === 'establecer_ruta') {
-            if (idLimpio === 'A-OLI' || idLimpio === 'A') {
-                moverCambioConTiempoSiEsNecesario('W2021', 'AW2021', curW21, 1, function() {
-                    var updates = {};
-                    updates['cabinas/olivos/senales/sA-OLI'] = 1;
-                    updates['cabinas/olivos/senales/A-OLI'] = 1;
-                    updates['cabinas/olivos/enclavamientos/ESAO'] = 1;
-                    updates['cabinas/olivos/enclavamientos/EW20'] = 1;
-                    updates['cabinas/olivos/enclavamientos/EW21'] = 1;
-                    updates['cabinas/olivos/cambios/W2021'] = 1;
-                    
-                    updates['cabinas/olivos/vias/ca-oli'] = 0;
-                    updates['cabinas/olivos/vias/w20pm'] = 0;
-                    updates['cabinas/olivos/vias/20'] = 0;
-                    updates['cabinas/olivos/vias/w21pm'] = 0;
-                    updates['cabinas/olivos/vias/21'] = 0;
-                    updates['cabinas/olivos/vias/c133'] = 0;
-                    updates['cabinas/olivos/vias/c135'] = 0;
-
-                    updates['cabinas/olivos/rutas_activas/FS1A'] = 1; // Asignación ruta FS1A
-
-                    curW20 = "1"; curW21 = "1";
-                    w20_estado = 0; w21_estado = 0;
-                    db.ref().update(updates);
-                });
-            } else if (idLimpio === 'B-OLI' || idLimpio === 'B' ) {
-                moverCambioConTiempoSiEsNecesario('W2425', 'AW2425', curW25, 1, function() {
-                    var updates = {};
-                    updates['cabinas/olivos/senales/sB-OLI'] = 1;
-                    updates['cabinas/olivos/senales/B-OLI'] = 1;
-                   
-                    updates['cabinas/olivos/enclavamientos/ESBO'] = 1;
-                    updates['cabinas/olivos/enclavamientos/EW24'] = 1;
-                    updates['cabinas/olivos/enclavamientos/EW25'] = 1;
-                    updates['cabinas/olivos/cambios/W2425'] = 1;
-                    
-                    updates['cabinas/olivos/vias/cb-oli'] = 0;
-                    updates['cabinas/olivos/vias/w25pm'] = 0;
-                    updates['cabinas/olivos/vias/25'] = 0;
-                    updates['cabinas/olivos/vias/c141'] = 0;
-                    updates['cabinas/olivos/vias/c143'] = 0;
-
-                    updates['cabinas/olivos/rutas_activas/FS1B'] = 1; // Asignación ruta FS1B
-
-                    curW24 = "1"; curW25 = "1";
-                    w24_estado = 0; w25_estado = 0;
-                    db.ref().update(updates);
-                });
-            } else if (idLimpio === 'Z-OLI' || idLimpio === 'Z') {
-                moverCambioConTiempoSiEsNecesario('W2425', 'AW2425', curW25, 1, function() {
-                    var updates = {};
-                    updates['cabinas/olivos/senales/sZ-OLI'] = 1;
-                    updates['cabinas/olivos/senales/Z-OLI'] = 1;
-                    updates['cabinas/olivos/enclavamientos/ESZO'] = 1;
-                    updates['cabinas/olivos/enclavamientos/EW24'] = 1;
-                    updates['cabinas/olivos/enclavamientos/EW25'] = 1;
-                    updates['cabinas/olivos/cambios/W2425'] = 1;
-                    
-                    updates['cabinas/olivos/vias/cz-oli'] = 0;
-                    updates['cabinas/olivos/vias/w24pm'] = 0;
-                    updates['cabinas/olivos/vias/24'] = 0;
-                    updates['cabinas/olivos/vias/c142'] = 0;
-                    updates['cabinas/olivos/vias/c144'] = 0;
-
-                    updates['cabinas/olivos/rutas_activas/FS2Z'] = 1; // Asignación ruta FS2Z
-
-                    curW24 = "1"; curW25 = "1";
-                    w24_estado = 0; w25_estado = 0;
-                    db.ref().update(updates);
-                });
-            } else if (idLimpio === 'Y-OLI' || idLimpio === 'Y') {
-                moverCambioConTiempoSiEsNecesario('W2021', 'AW2021', curW20, 1, function() {
-                    var updates = {};
-                    updates['cabinas/olivos/senales/sY-OLI'] = 1;
-                    updates['cabinas/olivos/senales/Y-OLI'] = 1;
-                    updates['cabinas/olivos/enclavamientos/ESYO'] = 1;
-                    updates['cabinas/olivos/enclavamientos/EW20'] = 1;
-                    updates['cabinas/olivos/enclavamientos/EW21'] = 1;
-                    updates['cabinas/olivos/cambios/W2021'] = 1;
-                    
-                    updates['cabinas/olivos/vias/cy-Oli'] = 0;
-                    updates['cabinas/olivos/vias/w20pm'] = 0;
-                    updates['cabinas/olivos/vias/20'] = 0;
-                    updates['cabinas/olivos/vias/c134'] = 0;
-                    updates['cabinas/olivos/vias/c136'] = 0;
-
-                    updates['cabinas/olivos/rutas_activas/FS2Y-S136'] = 1; // Asignación ruta FS2Y-S136
-
-                    curW20 = "1"; curW21 = "1";
-                    w20_estado = 0; w21_estado = 0;
-                    db.ref().update(updates);
-                });
-            }
-        } else if (tipoAccion === 'a_peligro') {
-            db.ref('cabinas/olivos/senales/s' + senalSeleccionada).set(0);
-            db.ref('cabinas/olivos/senales/' + senalSeleccionada).set(0);
-        } else if (tipoAccion === 'cancelar_ruta') {
-            var valorActual = 0;
-            var posiblesClaves = ["s" + senalSeleccionada, senalSeleccionada, "s" + idLimpio + "-OLI", idLimpio + "-OLI"];
-            for (var i = 0; i < posiblesClaves.length; i++) {
-                if (estadoSenalesOlivos[posiblesClaves[i]] !== undefined) {
-                    valorActual = Number(estadoSenalesOlivos[posiblesClaves[i]]);
-                    break;
-                }
-            }
-
-            if (valorActual !== 0) {
-                alert("AVISO: Para anular la ruta, la señal debe estar establecida primero a PELIGRO.");
-                cerrarTodosLosMenus();
-                return;
-            }
-
-            var updates = {};
-            if (idLimpio === 'A-OLI' || idLimpio === 'A') {
-                updates['cabinas/olivos/vias/w21pm'] = 2;
-                updates['cabinas/olivos/vias/21'] = 2;
-                updates['cabinas/olivos/vias/ca-oli'] = 2;
-                updates['cabinas/olivos/enclavamientos/ESAO'] = 0;
-                updates['cabinas/olivos/enclavamientos/EW20'] = 0;
-                updates['cabinas/olivos/enclavamientos/EW21'] = 0;
-                updates['cabinas/olivos/rutas_activas/FS1A'] = null; // Limpiar ruta FS1A
-            } else if (idLimpio === 'B-OLI' || idLimpio === 'B' ) {
-                updates['cabinas/olivos/vias/w25pm'] = 2;
-                updates['cabinas/olivos/vias/25'] = 2;
-                updates['cabinas/olivos/vias/cb-oli'] = 2;
-                updates['cabinas/olivos/enclavamientos/ESBO'] = 0;
-                updates['cabinas/olivos/enclavamientos/EW24'] = 0;
-                updates['cabinas/olivos/enclavamientos/EW25'] = 0;
-                updates['cabinas/olivos/rutas_activas/FS1B'] = null; // Limpiar ruta FS1B
-            } else if (idLimpio === 'Z-OLI' || idLimpio === 'Z') {
-                updates['cabinas/olivos/vias/w24pm'] = 2;
-                updates['cabinas/olivos/vias/24'] = 2;
-                updates['cabinas/olivos/vias/cz-oli'] = 2;
-                updates['cabinas/olivos/enclavamientos/ESZO'] = 0;
-                updates['cabinas/olivos/enclavamientos/EW24'] = 0;
-                updates['cabinas/olivos/enclavamientos/EW25'] = 0;
-                updates['cabinas/olivos/rutas_activas/FS2Z'] = null; // Limpiar ruta FS2Z
-            } else if (idLimpio === 'Y-OLI' || idLimpio === 'Y') {
-                updates['cabinas/olivos/vias/w20pm'] = 2;
-                updates['cabinas/olivos/vias/20'] = 2;
-                updates['cabinas/olivos/vias/cy-Oli'] = 2;
-                updates['cabinas/olivos/enclavamientos/ESYO'] = 0;
-                updates['cabinas/olivos/enclavamientos/EW20'] = 0;
-                updates['cabinas/olivos/enclavamientos/EW21'] = 0;
-                updates['cabinas/olivos/rutas_activas/FS2Y-S136'] = null; // Limpiar ruta FS2Y-S136
-            }
-
-            if (Object.keys(updates).length > 0) {
-                db.ref().update(updates);
-            }
-        }
-        cerrarTodosLosMenus();
-    }
-
-    // ==========================================
-    // 2. RUTAS DE MANIOBRA (20A, 21A, 25A, 24A)
-    // ==========================================
-    function autorizarManiobraFS20A_V1() {
-        var caVal = Number(estadoViasOlivos["ca-oli"] || 0);
-        var valCaDestino = (caVal === 1) ? 1 : 5;
-
-        moverCambioConTiempoSiEsNecesario('W2021', 'AW2021', curW20, 0, function() {
-            var updates = {};
-            updates['cabinas/olivos/senales/s20A'] = 2;
-            updates['cabinas/olivos/senales/s20a'] = 2;
-            updates['cabinas/olivos/senales/20A'] = 2;
-
-            updates['cabinas/olivos/vias/w20pm'] = 4;
-            updates['cabinas/olivos/vias/w21pm'] = 4;
-            updates['cabinas/olivos/vias/ca-oli'] = valCaDestino;
-            updates['cabinas/olivos/enclavamientos/EW21'] = 1;
-            updates['cabinas/olivos/enclavamientos/EW20'] = 1;
-            updates['cabinas/olivos/cambios/W2021'] = 0;
-            curW20 = "0"; curW21 = "0";
-
-            db.ref().update(updates);
-        });
-        cerrarTodosLosMenus();
-    }
-
-    function autorizarManiobraFS20A_V2() {
-        var czVal = Number(estadoViasOlivos["cz-oli"] || 0);
-        var valCzDestino = (czVal === 1) ? 1 : 5;
-
-        moverCambioConTiempoSiEsNecesario('W2021', 'AW2021', curW20, 1, function() {
-            var updates = {};
-            updates['cabinas/olivos/senales/s20A'] = 2;
-            updates['cabinas/olivos/senales/s20a'] = 2;
-            updates['cabinas/olivos/senales/20A'] = 2;
-
-            updates['cabinas/olivos/vias/w20pm'] = 4;
-            updates['cabinas/olivos/vias/w21pm'] = 2;
-            updates['cabinas/olivos/vias/cz-oli'] = valCzDestino;
-            updates['cabinas/olivos/enclavamientos/EW21'] = 1;
-            updates['cabinas/olivos/enclavamientos/EW20'] = 1;
-            updates['cabinas/olivos/cambios/W2021'] = 1;
-            curW20 = "1"; curW21 = "1";
-
-            db.ref().update(updates);
-        });
-        cerrarTodosLosMenus();
-    }
-
-    function autorizarManiobraFS21A() {
-        var cyVal = Number(estadoViasOlivos["cy-Oli"] || 0);
-        var valCyDestino = (cyVal === 1) ? 1 : 5;
-
-        moverCambioConTiempoSiEsNecesario('W2021', 'AW2021', curW21, 0, function() {
-            var updates = {};
-            updates['cabinas/olivos/senales/s21A'] = 2;
-            updates['cabinas/olivos/senales/s21a'] = 2;
-            updates['cabinas/olivos/senales/21A'] = 2;
-
-            updates['cabinas/olivos/vias/w20pm'] = 4;
-            updates['cabinas/olivos/vias/w21pm'] = 4;
-            updates['cabinas/olivos/vias/cy-Oli'] = valCyDestino;
-            updates['cabinas/olivos/enclavamientos/EW21'] = 1;
-            updates['cabinas/olivos/enclavamientos/EW20'] = 1;
-            updates['cabinas/olivos/cambios/W2021'] = 0;
-            curW20 = "0"; curW21 = "0";
-
-            db.ref().update(updates);
-        });
-        cerrarTodosLosMenus();
-    }
-
-    function autorizarManiobraFS25A_V1() {
-        var caVal = Number(estadoViasOlivos["ca-oli"] || 0);
-        var valCaDestino = (caVal === 1) ? 1 : 5;
-
-        moverCambioConTiempoSiEsNecesario('W2425', 'AW2425', curW25, 1, function() {
-            var updates = {};
-            updates['cabinas/olivos/senales/s25A'] = 2;
-            updates['cabinas/olivos/senales/s25a'] = 2;
-            updates['cabinas/olivos/senales/25A'] = 2;
-
-            updates['cabinas/olivos/vias/w25pm'] = 4;
-            updates['cabinas/olivos/vias/w20pm'] = 2;
-            updates['cabinas/olivos/vias/ca-oli'] = valCaDestino;
-            updates['cabinas/olivos/enclavamientos/EW25'] = 1;
-            updates['cabinas/olivos/enclavamientos/EW24'] = 1;
-            updates['cabinas/olivos/cambios/W2425'] = 1;
-            curW24 = "1"; curW25 = "1";
-
-            db.ref().update(updates);
-        });
-        cerrarTodosLosMenus();
-    }
-
-    function autorizarManiobraFS25A_V2() {
-        var czVal = Number(estadoViasOlivos["cz-oli"] || 0);
-        var valCzDestino = (czVal === 1) ? 1 : 5;
-
-        moverCambioConTiempoSiEsNecesario('W2425', 'AW2425', curW25, 0, function() {
-            var updates = {};
-            updates['cabinas/olivos/senales/s25A'] = 2;
-            updates['cabinas/olivos/senales/s25a'] = 2;
-            updates['cabinas/olivos/senales/25A'] = 2;
-
-            updates['cabinas/olivos/vias/w25pm'] = 4;
-            updates['cabinas/olivos/vias/w24pm'] = 4;
-            updates['cabinas/olivos/vias/cz-oli'] = valCzDestino;
-            updates['cabinas/olivos/enclavamientos/EW25'] = 1;
-            updates['cabinas/olivos/enclavamientos/EW24'] = 1;
-            updates['cabinas/olivos/cambios/W2425'] = 0;
-            curW24 = "0"; curW25 = "0";
-
-            db.ref().update(updates);
-        });
-        cerrarTodosLosMenus();
-    }
-
-    function autorizarManiobraFS24A() {
-        var cbVal = Number(estadoViasOlivos["cb-oli"] || 0);
-        var valCbDestino = (cbVal === 1) ? 1 : 5;
-
-        moverCambioConTiempoSiEsNecesario('W2425', 'AW2425', curW24, 0, function() {
-            var updates = {};
-            updates['cabinas/olivos/senales/s24A'] = 2;
-            updates['cabinas/olivos/senales/s24a'] = 2;
-            updates['cabinas/olivos/senales/24A'] = 2;
-
-            updates['cabinas/olivos/vias/w24pm'] = 4;
-            updates['cabinas/olivos/vias/w25pm'] = 4;
-            updates['cabinas/olivos/vias/cb-oli'] = valCbDestino;
-            updates['cabinas/olivos/enclavamientos/EW25'] = 1;
-            updates['cabinas/olivos/enclavamientos/EW24'] = 1;
-            updates['cabinas/olivos/cambios/W2425'] = 0;
-            curW24 = "0"; curW25 = "0";
-
-            db.ref().update(updates);
-        });
-        cerrarTodosLosMenus();
-    }
-
-    function cancelarManiobra(idEnana) {
-        var updates = {};
-        updates['cabinas/olivos/senales/s' + idEnana] = 0;
-        updates['cabinas/olivos/senales/s' + idEnana.toLowerCase()] = 0;
-        updates['cabinas/olivos/senales/' + idEnana] = 0;
-
-        if (idEnana.includes('20') || idEnana.includes('21')) {
-            updates['cabinas/olivos/enclavamientos/EW20'] = 0;
-            updates['cabinas/olivos/enclavamientos/EW21'] = 0;
-
-            updates['cabinas/olivos/vias/w20pm'] = 2;
-            updates['cabinas/olivos/vias/w21pm'] = 2;
-            updates['cabinas/olivos/vias/ca-oli'] = 2;
-            updates['cabinas/olivos/vias/cy-Oli'] = 2;
-            updates['cabinas/olivos/vias/cz-oli'] = 2;
-        } else if (idEnana.includes('25') || idEnana.includes('24')) {
-            updates['cabinas/olivos/enclavamientos/EW24'] = 0;
-            updates['cabinas/olivos/enclavamientos/EW25'] = 0;
-
-            updates['cabinas/olivos/vias/w25pm'] = 2;
-            updates['cabinas/olivos/vias/w24pm'] = 2;
-            updates['cabinas/olivos/vias/cz-oli'] = 2;
-            updates['cabinas/olivos/vias/cb-oli'] = 2;
-            updates['cabinas/olivos/vias/ca-oli'] = 2;
-        }
-
-        db.ref().update(updates);
-        cerrarTodosLosMenus();
-    }
-
-    function abrirMenuManiobra(event, idEnana, posX, posY) {
-        if (event) event.stopPropagation();
-        cerrarTodosLosMenus();
-        enanaSeleccionada = idEnana;
-        const menu = document.getElementById('menuSiemensManiobra');
-        const contOpciones = document.getElementById('contenedorOpcionesManiobra');
-        document.getElementById('headerManiobraSiemens').innerText = "MANIOBRA " + idEnana;
-        
-        var hayRutaPrincipalArmada = (
-            Number(estadoEnclavamientosOlivos["ESAO"] || 0) === 1 ||
-            Number(estadoEnclavamientosOlivos["ESBO"] || 0) === 1 ||
-            Number(estadoEnclavamientosOlivos["ESZO"] || 0) === 1 ||
-            Number(estadoEnclavamientosOlivos["ESYO"] || 0) === 1
-        );
-
-        var otraManiobraActiva = false;
-        ['20A', '21A', '25A', '24A'].forEach(function(enana) {
-            var valEnana = Number(estadoSenalesOlivos["s" + enana] || estadoSenalesOlivos[enana] || estadoSenalesOlivos["s" + enana.toLowerCase()] || 0);
-            if (valEnana === 2 && enana.toUpperCase() !== idEnana.toUpperCase()) {
-                otraManiobraActiva = true;
-            }
-        });
-
-        var estadoEnanaActual = Number(estadoSenalesOlivos["s" + idEnana] || estadoSenalesOlivos[idEnana] || estadoSenalesOlivos["s" + idEnana.toLowerCase()] || 0);
-
-        if (estadoEnanaActual === 2) {
-            contOpciones.innerHTML = `
-                <div class="menu-siemens-item" >Anular ruta</div>
-            `;
-        } else if (hayRutaPrincipalArmada) {
-            contOpciones.innerHTML = `<div class="menu-siemens-item deshabilitado">🛑 RUTA PRINCIPAL ARMADA</div>`;
-        } else if (otraManiobraActiva) {
-            contOpciones.innerHTML = `<div class="menu-siemens-item deshabilitado">🛑 YA HAY OTRA MANIOBRA ARMADA</div>`;
-        } else {
-            if (idEnana === '20A' || idEnana === '20a') {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Armar FS20A-V1 (20A ➔ 21A)</div>
-                    <div class="menu-siemens-item" >Armar FS20A-V2 (20A ➔ Z-OLI)</div>
-                `;
-            } else if (idEnana === '21A' || idEnana === '21a') {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Armar FS21A (21A ➔ 20A)</div>
-                `;
-            } else if (idEnana === '25A' || idEnana === '25a') {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Armar FS25A-V1 (25A ➔ B-OLI)</div>
-                    <div class="menu-siemens-item" >Armar FS25A-V2 (25A ➔ 24A)</div>
-                `;
-            } else if (idEnana === '24A' || idEnana === '24a') {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Armar FS24A (24A ➔ 25A)</div>
-                `;
-            } else {
-                contOpciones.innerHTML = `
-                    <div class="menu-siemens-item" >Autorizar Maniobra</div>
-                `;
-            }
-        }
-
-        menu.style.left = (posX - 20) + 'px';
-        menu.style.top = (posY - 100) + 'px';
-        menu.style.display = 'block';
-    }
-
-    function anclarNombres() {
-        document.querySelectorAll('.via').forEach(via => {
-            if (!via.dataset.nombre) return;
-            const label = document.createElement('span');
-            label.className = 'nombre-via-label';
-            label.innerText = via.dataset.nombre;
-            const container = document.querySelector('.map-container');
-            label.style.left = (via.offsetLeft + (via.offsetWidth / 2)) + 'px';
-            label.style.transform = 'translateX(-50%)';
-            if (via.classList.contains('v-arriba')) {
-                label.style.top = (via.offsetTop - 15) + 'px';
-            } else {
-                label.style.top = (via.offsetTop + 12) + 'px';
-            }
-            container.appendChild(label);
-        });
-    }
+window.addEventListener('load', anclarNombres);
 </script>
 </body>
 </html>
