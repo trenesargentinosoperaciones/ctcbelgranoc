@@ -2,11 +2,22 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=0.2, maximum-scale=3.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>CTC Lineal General - Corredor Unificado</title>
 
 <style>
-    body { background-color: #000; color: white; font-family: Arial, sans-serif; margin: 0; overflow-x: auto; user-select: none; }
+    body { background-color: #000; color: white; font-family: Arial, sans-serif; margin: 0; overflow-x: hidden; overflow-y: auto; user-select: none; }
+    
+    /* Contenedor exterior que escala proporcionalmente al ancho de la pantalla */
+    #viewport-escala {
+        width: 11500px;
+        height: 2350px;
+        transform-origin: top left;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
     .map-container { position: relative; width: 11500px; height: 2350px; background-color: #0b0c10; }
 
     /* --- ESTILO SEÑALES --- */
@@ -163,6 +174,9 @@
     </svg>
 </div>
 
+<!-- CONTENEDOR ESCALABLE AL ANCHO DE LA PANTALLA -->
+<div id="viewport-escala">
+
 <div class="linea-limite linea-v" style="top: 820px; left: 695px; height: 85px;"></div>
 <div class="linea-limite linea-h" style="top: 905px; left: 595px; width: 100px;"></div>
 <div class="linea-limite linea-v" style="top: 905px; left: 595px; height: 200px;"></div>
@@ -269,14 +283,34 @@
     <div style="position: absolute; top: 995px; left: 720px; text-align: center;"><div id="ESYB" class="led-enclav enclav-senal"></div></div>
 
 </div>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
+// Ajusta la escala horizontal exacta al ancho de la pantalla y recalcula al girar el celular
+function ajustarEscalaPantalla() {
+    const contenedor = document.getElementById('viewport-escala');
+    const anchoOriginal = 11500;
+    const altoOriginal = 2350;
+    
+    const anchoPantalla = window.innerWidth;
+    
+    // Escala proporcional basada exclusivamente en el ancho para que abarque toda la pantalla de lado a lado
+    const escalaFinal = anchoPantalla / anchoOriginal;
+
+    contenedor.style.transform = `scale(${escalaFinal})`;
+    
+    // Ajusta la altura del body de forma dinámica para que coincida con la escala del mapa
+    document.body.style.height = (altoOriginal * escalaFinal) + 'px';
+}
+
 window.addEventListener('load', function() {
-    window.scrollTo(0, 400);
+    ajustarEscalaPantalla();
     anclarNombres();
 });
+
+window.addEventListener('resize', ajustarEscalaPantalla);
 
 var firebaseConfig = {
     apiKey: "AIzaSyC2V...", 
