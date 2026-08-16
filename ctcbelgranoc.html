@@ -2,10 +2,11 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
 <title>CTC Lineal General - Corredor Unificado</title>
 
 <style>
-    body { background-color: #000; color: white; font-family: Arial; margin: 0; overflow-x: auto; user-select: none; }
+    body { background-color: #000; color: white; font-family: Arial, sans-serif; margin: 0; overflow-x: auto; user-select: none; }
     .map-container { position: relative; width: 11500px; height: 2350px; background-color: #0b0c10; }
 
     /* --- ESTILO SEÑALES --- */
@@ -29,7 +30,6 @@
     .enana .t-girada { font-size: 22px !important; margin-right: -6px !important; }
     .enana .circulo-led { width: 14px !important; height: 14px !important; }
     .enana .curva-led { width: 14px !important; height: 14px !important; }
-
     .enana .s-nombre-real { font-size: 10px !important; }
 
     .sentido-izq .s-grafico-real { flex-direction: row-reverse; }
@@ -71,15 +71,8 @@
         border-radius: 2px;
         pointer-events: none;
         z-index: 50 !important;
-    }      
-    .via-diagonal-ajustada {
-        position: absolute;
-        height: 10px; 
-        background-color: #FF0000; 
-        z-index: 30;
-        clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);
-    }
-
+    }   
+    
     .via-fantasma { background-color: #7F7F7F !important; border: none !important; color: transparent !important; z-index: 25 !important; box-shadow: none !important; }
 
     .libreconI { background-color: #00FF00 !important; border-color: #00FF00 !important; }
@@ -87,173 +80,32 @@
     .libresinI { background-color: #FFFF00 !important; border-color: #FFFF00 !important; }
     .maniobra { background-color: #00A2E8 !important; border-color: #00A2E8 !important; }
     .libredeslizamiento { background-color: #A349A4 !important; border-color: #A349A4 !important; }
-    .zonasinseñalizar { background-color: #0000FF!important; border-color: #0000FF!important; }
-    .CVMXCS { 
-        background-color: #FFFF00 !important; 
-        border-top: 3px solid #FFFFFF !important; 
-        border-bottom: 3px solid #FFFFFF !important; 
-        height: 10px !important;
-        border-left: 1px solid transparent !important; 
-        border-right: 1px solid transparent !important;
-    }
-    .CVCRAS { 
-        background-color: #FFFF00 !important; 
-        border-top: 3px solid #00FF00 !important; 
-        border-bottom: 3px solid #00FF00 !important; 
-        height: 10px !important;
-        border-left: 1px solid transparent !important; 
-        border-right: 1px solid transparent !important;
-    }
-    .BVACVSD {
-        background-color: #7F7F7F !important;
-        border-top: 3px solid #A349A4 !important;
-        border-bottom: 3px solid #A349A4 !important;
-        height: 10px !important;
-        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" fill="white" stroke="red" stroke-width="1"/><line x1="2" y1="2" x2="8" y2="8" stroke="red" stroke-width="2"/><line x1="8" y1="2" x2="2" y2="8" stroke="red" stroke-width="2"/></svg>') !important;
-        background-repeat: no-repeat !important;
-        background-position: center !important;
-        background-size: 14px 14px !important; 
-    }
+    .zonasinseñalizar { background-color: #0000FF !important; border-color: #0000FF !important; }
 
-    .diagonal { transform-origin: 0% 50%; }    
+    .diagonal { transform-origin: 0% 50%; }   
 
     /* --- PANELES CONTROLES SUPERIORES --- */
     .status-container-bel { position: absolute; top: 570px; left: 380px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); }
-    .status-container-nuz { position: absolute; top: 520px; left: 1450px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
-    .status-container-oli { position: absolute; top: 520px; left: 2960px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
-    .status-container-isi { position: absolute; top: 520px; left: 4550px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
-    .status-container-vic { position: absolute; top: 245px; left: 6275px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
-    .status-container-fer { position: absolute; top: 520px; left: 8450px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
-    .status-container-tig { position: absolute; top: 580px; left: 9780px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
-
     .status-row { display: flex; align-items: center; gap: 15px; color: white; }
     .nombre-grupo { font-weight: bold; width: 75px; border-right: 1px solid rgba(255,255,255,0.3); }
     .led-rd { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; background: #222; display: inline-block; }
     .l-white { background: #fff !important; box-shadow: 0 0 10px #fff; }
-    .l-yellow { background: #ffcc00 !important; box-shadow: 0 0 10px #ffcc00; }
     .l-red { background: #ff0000 !important; box-shadow: 0 0 10px #ff0000; }
 
     .cd-via-panelB { position: absolute; top: 655px; left: 730px; background-color: #7D5BA6; border: 2px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelN { position: absolute; top: 655px; left: 1795px; background-color: #41B883; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelR { position: absolute; top: 677px; left: 2370px; background-color: #41B883; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelVL { position: absolute; top: 677px; left: 2820px; background-color: #4682B4; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelO { position: absolute; top: 655px; left: 3540px; background-color: #4682B4; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelLL { position: absolute; top: 677px; left: 4050px; background-color: #4682B4; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelMA { position: absolute; top: 677px; left: 4400px; background-color: #DE2C14; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelSI { position: absolute; top: 655px; left: 5425px; background-color: #DE2C14; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelAC { position: absolute; top: 677px; left: 4870px; background-color: #DE2C14; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelVI { position: absolute; top: 655px; left: 7010px; background-color: #20603D; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelBC { position: absolute; top: 677px; left: 6095px; background-color: #20603D; border: 1px solid #777; width: 120px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelVY { position: absolute; top: 677px; left: 8215px; background-color: #632D7A; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelSF { position: absolute; top: 655px; left: 8770px; background-color: #632D7A; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelCA { position: absolute; top: 677px; left: 9270px; background-color: #632D7A; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
-    .cd-via-panelT { position: absolute; top: 655px; left: 10815px; background-color: #CC9900; border: 1px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
 
     .led-10mm { width: 15px; height: 15px; border-radius: 50%; background-color: #1a1a1a; border: 2px solid #333; display: inline-block; margin-right: 5px; transition: 0.2s; }
     .l-on-w { background-color: #ffffff !important; box-shadow: 0 0 15px #fff !important; }
     .l-on-b { background-color: #0088ff !important; box-shadow: 0 0 15px #0088ff !important; }
     
-    .estacion { border: 2px solid white; background: black; padding: 5px 20px; font-weight: bold; position: absolute; font-size: 22px; z-index: 20; }
+    .estacion { border: 2px solid white; background: black; padding: 5px 20px; font-weight: bold; position: absolute; font-size: 22px; z-index: 20; color: white; }
     .anden { position: absolute; height: 35px; background-color: #A9A9A9; border: 1px solid #777777; z-index: 10; opacity: 0.9; }
-    .andenfin { position: absolute; height: 9px; background-color: #666666; border: 1px solid #444444; z-index: 10; opacity: 0.9; }
     .nombre-cambio { background-color: #0056b3; border: 1px solid white; color: white; padding: 1px 4px; font-size: 10px; font-weight: bold; border-radius: 2px; z-index: 50; position: absolute; }
-    .led-enclav { 
-        width: 12px; 
-        height: 12px; 
-        border-radius: 50%; 
-        background-color: #ffffff; 
-        border: 1px solid #777; 
-        display: inline-block; 
-        transition: 0.3s; 
-    }
-    .enc-on { 
-        background-color: #00BFFF !important; 
-        border-color: #00BFFF !important;
-        box-shadow: 0 0 10px #00BFFF !important; 
-    }
-    .label-enc { font-size: 9px; color: #00BFFF; font-weight: bold; margin-bottom: 2px; }
+    
+    .led-enclav { width: 12px; height: 12px; border-radius: 50%; background-color: #ffffff; border: 1px solid #777; display: inline-block; transition: 0.3s; }
+    .enclav-cambio { border-radius: 2px; width: 22px; z-index: 9999 !important; position: relative; }
+    .enclav-senal { border-radius: 50%; }
     .label-plataforma { position: absolute; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px; letter-spacing: 1px; pointer-events: none; z-index: 15; }
-
-    /* --- PASOS A NIVEL SIEMENS EN L --- */
-    .pan-rect { position: absolute; width: 20px; height: 400px; background-color: #444; z-index: 5; }
-    .pan-etiqueta { position: absolute; background-color: black; color: white; border: 1px solid white; padding: 2px 6px; font-size: 11px; transform: rotate(-90deg); transform-origin: left bottom; z-index: 25; }
-    .ind-pan-container { position: absolute; width: 30px; height: 30px; z-index: 30; cursor: pointer; }
-    .ind-alto { position: absolute; left: 0; bottom: 10px; width: 10px; height: 25px; background-color: #331100; border: 1px solid #000; }
-    .ind-alto.active { background-color: #FFFF00; box-shadow: 0 0 10px #FF0; }
-    .ind-bajo { position: absolute; left: 0; bottom: 0; width: 30px; height: 10px; background-color: #330000; border: 1px solid #000; }
-    .ind-bajo.active { background-color: #FF0000; box-shadow: 0 0 10px #F00; }
-
-    .pan-amarillo-on { background-color: #FFFF00 !important; box-shadow: 0 0 15px #FFFF00 !important; border-color: #FFFF00 !important; }
-    .pan-rojo-on { background-color: #FF0000 !important; box-shadow: 0 0 15px #FF0000 !important; border-color: #FF0000 !important; }
-    .indicacion { background: #b50b6e; border: 2px solid white; color: white; padding: 2px 10px; font-weight: bold; position: absolute; font-size: 13px; z-index: 20; letter-spacing: 1px;box-shadow: 4px 4px 0px #000; }
-
-    /* EL PARAGOLPE DIBUJADO (FLECHA ROJA + BARRA) */
-    .paragolpe-diseno {
-        position: absolute;
-        width: 25px;
-        height: 20px;
-        z-index: 100;
-    }
-    .paragolpe-diseno::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 0;
-        height: 0;
-        border-top: 10px solid transparent;
-        border-bottom: 10px solid transparent;
-        border-right: 15px solid #ff0000;
-    }
-    .paragolpe-diseno::after {
-        content: "";
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 4px;
-        height: 20px;
-        background-color: #ff0000;
-    }
-    .paragolpe-diseno .union {
-        position: absolute;
-        left: 15px;
-        top: 8px;
-        width: 6px;
-        height: 4px;
-        background-color: #ff0000;
-    }
-
-    /* --- DISEÑO DEL INDICADOR DE RUTA --- */
-    .caja-ruta-exterior {
-        position: absolute;
-        width: 38px;
-        height: 48px;
-        background-color: #000000;
-        border: 2px solid #333333;
-        border-radius: 4px;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 200;
-    }
-    .visor-ruta-interior {
-        width: 28px;
-        height: 38px;
-        background-color: #e6c300;
-        border: 2px solid #000000;
-        border-radius: 2px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .texto-ruta-negro {
-        font-family: 'Courier New', monospace;
-        font-size: 30px;
-        font-weight: 900;
-        color: #000000;
-        line-height: 1;
-        user-select: none;
-    }
 
     .status-box-bel {
         position: absolute;
@@ -271,203 +123,58 @@
         z-index: 100;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
     }
-    .status-box-nun {
-        position: absolute;
-        top: 450px;
-        left: 1450px; 
-        width: 260px;
-        background-color: #FFD700;
-        border: 2px solid #000;
-        border-radius: 4px;
-        padding: 6px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        z-index: 100;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-    }
-    .status-box-oli {
-        position: absolute;
-        top: 450px;
-        left: 2960px; 
-        width: 260px;
-        background-color: #FFD700;
-        border: 2px solid #000;
-        border-radius: 4px;
-        padding: 6px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        z-index: 100;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-    }
-    .status-box-isi {
-        position: absolute;
-        top: 450px;
-        left: 4550px; 
-        width: 260px;
-        background-color: #FFD700;
-        border: 2px solid #000;
-        border-radius: 4px;
-        padding: 6px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        z-index: 100;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-    }
-    .status-box-vic {
-        position: absolute;
-        top: 175px;
-        left: 6275px; 
-        width: 260px;
-        background-color: #FFD700;
-        border: 2px solid #000;
-        border-radius: 4px;
-        padding: 6px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        z-index: 100;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-    }
-    .status-box-fer {
-        position: absolute;
-        top: 450px;
-        left: 8450px; 
-        width: 260px;
-        background-color: #FFD700;
-        border: 2px solid #000;
-        border-radius: 4px;
-        padding: 6px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        z-index: 100;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-    }
-    .status-box-tig {
-        position: absolute;
-        top: 510px;
-        left: 9780px; 
-        width: 260px;
-        background-color: #FFD700;
-        border: 2px solid #000;
-        border-radius: 4px;
-        padding: 6px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        z-index: 100;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-    }
-
-    .status-header-text {
-        font-weight: bold;
-        font-size: 20px;
-        color: WHITE;
-        text-transform: uppercase;
-    }
-    .status-content {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-    .status-label {
-        font-size: 15px;
-        font-weight: bold;
-        color: RED;
-    }
-    .led-status {
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background-color: #555;
-        border: 1px solid black;
-    }
+    .status-header-text { font-weight: bold; font-size: 20px; color: WHITE; text-transform: uppercase; }
+    .status-content { display: flex; align-items: center; gap: 15px; }
+    .status-label { font-size: 15px; font-weight: bold; color: RED; }
+    .led-status { width: 15px; height: 15px; border-radius: 50%; background-color: #555; border: 1px solid black; }
     .led-on { background-color: #00FF00; box-shadow: 0 0 5px #00FF00; }
     .led-off { background-color: #FF0000; box-shadow: 0 0 5px #FF0000; }
 
-    .linea-limite {
+    .linea-limite { position: absolute; z-index: 999; border-color: #fff; border-style: dashed; }
+    .linea-v { border-left-width: 2px; border-top: 0; border-bottom: 0; border-right: 0; }
+    .linea-h { border-top-width: 2px; border-left: 0; border-right: 0; border-bottom: 0; }
+
+    /* LOGO FIJO DENTRO DEL TABLERO (NO FLOTA, SE MUEVE CON EL MAPA) */
+    .logo-tablero {
         position: absolute;
-        z-index: 999;
-        border-color: #fff;
-        border-style: dashed;
-    }
-    .linea-v {
-        border-left-width: 2px;
-        border-top: 0;
-        border-bottom: 0;
-        border-right: 0;
-    }
-    .linea-h {
-        border-top-width: 2px;
-        border-left: 0;
-        border-right: 0;
-        border-bottom: 0;
-    }
-
-    #AW12.l-red {
-        background-color: red !important;
-        box-shadow: 0 0 10px red !important;
-    }
-
-    .led-enclav { 
-        width: 12px; 
-        height: 12px; 
-        background-color: #ffffff; 
-        border: 1px solid #777; 
-        display: inline-block; 
-        transition: 0.3s; 
-    }
-    .enclav-cambio {
-        border-radius: 2px;
-        width: 22px;
-        z-index: 9999 !important;
-        position: relative;
-    }
-    .enclav-senal {
-        border-radius: 50%;
-    }
-
-    /* LOGO FLOTANTE FIJO ARRIBA A LA DERECHA (FONDO BLANCO) */
-    .logo-flotante {
-        position: fixed;
-        top: 15px;
-        right: 15px;
-        z-index: 99999;
+        top: 510px;
+        left: 1100px;
+        z-index: 100;
         background: #ffffff;
-        padding: 6px 12px;
+        padding: 4px 12px;
         border: 1px solid #ccc;
         border-radius: 4px;
         display: flex;
         align-items: center;
-        pointer-events: none;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
     }
 </style>
 </head>
 <body>
 
-<!-- LOGO INSTITUCIONAL FIJO ARRIBA A LA DERECHA CON FONDO BLANCO -->
-<div class="logo-flotante">
-    <svg height="38" viewBox="0 0 330 65" xmlns="http://www.w3.org/2000/svg">
-        <!-- Fondo blanco interno por seguridad (opcional si ya tiene background en CSS) -->
-        <rect width="330" height="65" fill="#ffffff"/>
-        <!-- Barra vertical izquierda celeste -->
-        <rect x="0" y="4" width="7" height="57" fill="#00b4d8"/>
-        <!-- Texto TRENES ARGENTINOS -->
-        <text x="16" y="21" font-family="Arial, sans-serif" font-weight="900" font-size="19" fill="#00b4d8" letter-spacing="1">TRENES ARGENTINOS</text>
-        <!-- Texto OPERACIONES -->
-        <text x="16" y="53" font-family="Arial, sans-serif" font-weight="900" font-size="28" fill="#0077b6" letter-spacing="0.5">OPERACIONES</text>
-    </svg>
-</div>
+<div class="map-container">
+    
+    <!-- LOGO FIJO INTEGRADO AL MAPA (CERCA DE LA ESTACIÓN BELGRANO C) -->
+    <div class="logo-tablero">
+        <svg height="60" viewBox="0 0 280 60" xmlns="http://www.w3.org/2000/svg">
+            <rect width="330" height="60" fill="#ffffff"/>
+            <rect x="0" y="4" width="7" height="57" fill="#00b4d8"/>
+            <text x="16" y="21" font-family="Arial, sans-serif" font-weight="900" font-size="19" fill="#00b4d8" letter-spacing="1">TRENES ARGENTINOS</text>
+            <text x="16" y="53" font-family="Arial, sans-serif" font-weight="900" font-size="28" fill="#0077b6" letter-spacing="0.5">OPERACIONES</text>
+        </svg>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="linea-limite linea-v" style="top: 820px; left: 695px; height: 85px;"></div>
 <div class="linea-limite linea-h" style="top: 905px; left: 595px; width: 100px;"></div>
@@ -476,8 +183,6 @@
 <div class="linea-limite linea-v" style="top: 820px; left: 1245px; height: 85px;"></div>
 <div class="linea-limite linea-h" style="top: 905px; left: 1165px; width: 80px;"></div>
 <div class="linea-limite linea-v" style="top: 905px; left: 1165px; height: 200px;"></div>
-
-<div class="map-container">
     
 <div class="status-box-bel">
     <div class="status-header-text">BELGRANO C</div>
@@ -603,7 +308,7 @@ const TABLA_CAMBIOS = {
 };
 
 var tic = true;
-var curW = "1"; var flagAveria_Bel = 0; var w1_ocupado = false; var w2_ocupado = false;
+var curW = "1"; var flagAveria_Bel = 0; var w1_estado = 0; var w2_estado = 0;
 
 function procesarCambioGeneral(id, conf, pos, estadoVia, averia, tic) {
     const pm = document.getElementById(conf.pm);
@@ -638,7 +343,7 @@ function procesarCambioGeneral(id, conf, pos, estadoVia, averia, tic) {
             [pm, minus].forEach(el => el.classList.add(colorEstado));
         }
     }
-};
+}
 
 setInterval(function() {
     tic = !tic;
@@ -672,40 +377,6 @@ function pW() {
     if(lm) { 
         lm.className = "led-rd"; 
         if (curW != "1" && curW != 1) lm.classList.add('l-white'); 
-    }
-    
-    [v1p, v1m, v1pm, v2p, v2m, v2pm].forEach(el => {
-        if(el) el.classList.remove('via-fantasma');
-    });
-
-    if (curW === "1" || curW === 1) {
-        if(v1m) v1m.classList.add('via-fantasma'); 
-        if(v2m) v2m.classList.add('via-fantasma');
-        
-        if (flagAveria_Bel == 1 && tic) {
-            if(v1pm) v1pm.classList.add('via-fantasma'); if(v1p) v1p.classList.add('via-fantasma');
-            if(v2pm) v2pm.classList.add('via-fantasma'); if(v2p) v2p.classList.add('via-fantasma');
-        }
-    } else {
-        if(v1p) v1p.classList.add('via-fantasma'); 
-        if(v2p) v2p.classList.add('via-fantasma');
-        
-        if (flagAveria_Bel == 1 && tic) {
-            if(v1pm) v1pm.classList.add('via-fantasma'); if(v1m) v1m.classList.add('via-fantasma');
-            if(v2pm) v2pm.classList.add('via-fantasma'); if(v2m) v2m.classList.add('via-fantasma');
-        }
-    }
-
-    if (typeof viasEstadoBel !== 'undefined') {
-        Object.keys(viasEstadoBel).forEach(function(id) {
-            if(!["w1plus", "w1minus", "w2plus", "w2minus", "w1pm", "w2pm"].includes(id)) {
-                var el = document.getElementById(id); 
-                if(el) {
-                    el.classList.toggle('libre', viasEstadoBel[id] === 0);
-                    el.classList.toggle('ocupado', viasEstadoBel[id] === 1);
-                }
-            }
-        });
     }
 }
 
@@ -815,7 +486,6 @@ db.ref('cabinas').on('value', function(snapshot) {
         if (led) {
             if (Number(dataBel.status.status) === 1) {
                 led.className = 'led-status led-on';
-                window.lastHeartbeatBelgrano = Date.now();
             } else {
                 led.className = 'led-status led-off';
             }
@@ -824,21 +494,7 @@ db.ref('cabinas').on('value', function(snapshot) {
         if (dataBel.vias) {
             Object.keys(dataBel.vias).forEach(function(id) {
                 var val = dataBel.vias[id];
-                var esOcupado = (val === 1 || val === "1");
-                var idL = id.toLowerCase().trim();
-                var el = document.getElementById(id) || document.getElementById(idL) || document.getElementById(id.toUpperCase()) || document.getElementById("c" + idL) || document.getElementById("cdv" + idL) || document.getElementById("CDV" + id.toUpperCase());
-                
-                if (!el) {
-                    if (idL === "a-bel" || idL === "a-belgrano") el = document.getElementById("a-Bel");
-                    if (idL === "b-bel" || idL === "b-belgrano") el = document.getElementById("b-Bel");
-                    if (idL === "y-bel" || idL === "y-belgrano") el = document.getElementById("y-Bel");
-                    if (idL === "z-bel" || idL === "z-belgrano") el = document.getElementById("z-Bel");
-                    if (idL === "cvt7") el = document.getElementById("CVT7");
-                }
-                if (el) {
-                    if (esOcupado) { el.classList.remove('libre'); el.classList.add('ocupado'); } 
-                    else { el.classList.remove('ocupado'); el.classList.add('libre'); }
-                }
+                setEstadoCircuito(id, val);
             });
             if(dataBel.vias["w1pm"] !== undefined) w1_estado = dataBel.vias["w1pm"];
             if(dataBel.vias["w2pm"] !== undefined) w2_estado = dataBel.vias["w2pm"];
@@ -851,57 +507,30 @@ db.ref('cabinas').on('value', function(snapshot) {
         procesarDatosTrafico(dataBel.trafico || dataBel.datos_trafico, "B");
         procesarEnclavamientosCambios(dataBel.enclavamientos);
     }
-
-    function setEstadoCircuito(idCircuito, numEstado) {
-        const el = document.getElementById(idCircuito);
-        if (!el) return;
-
-        const estados = { 
-            3: 'via-fantasma', 0: 'libreconI', 1: 'ocupado', 2: 'libresinI', 
-            4: 'maniobra', 5: 'libredeslizamiento', 6: 'zonasinseñalizar',
-            7: 'CVMXCS', 8: 'CVCRAS', 9: 'BVACVSD'
-        };
-
-        const esArriba = el.classList.contains('v-arriba');
-        const esAbajo = el.classList.contains('v-abajo');
-        const esDiagonal = el.classList.contains('diagonal');
-        const esCambioSiemens = el.classList.contains('cambio-siemens');
-        
-        let nuevasClases = 'via';
-        if (esArriba) nuevasClases += ' v-arriba';
-        if (esAbajo) nuevasClases += ' v-abajo';
-        if (esDiagonal) nuevasClases += ' diagonal';
-        if (esCambioSiemens) nuevasClases += ' cambio-siemens';
-        
-        el.className = nuevasClases; 
-        
-        if (estados[numEstado]) {
-            el.classList.add(estados[numEstado]);
-        }
-    }
-
-    db.ref('cabinas/belgrano/vias').on('value', (snapshot) => {
-        const todosLosCircuitos = snapshot.val();
-        if (todosLosCircuitos) {
-            for (let id in todosLosCircuitos) {
-                setEstadoCircuito(id, todosLosCircuitos[id]);
-            }
-        }
-    });
-
-    function enviarCambio(id, estado) {
-        db.ref('cabinas/belgrano/vias/' + id).set(estado);
-    }
-
 });
 
-function obtenerColorPorEstado(estado) {
-    switch(estado) {
-        case 1: return 'ocupado';      // Rojo
-        case 4: return 'maniobra';     // Celeste
-        case 0: return 'libreconI';    // Verde
-        case 2: return 'libresinI';    // Amarillo
-        default: return 'via-fantasma';
+function setEstadoCircuito(idCircuito, numEstado) {
+    const el = document.getElementById(idCircuito) || document.getElementById(idCircuito.toLowerCase()) || document.getElementById("c" + idCircuito.toLowerCase());
+    if (!el) return;
+
+    const estados = { 
+        3: 'via-fantasma', 0: 'libreconI', 1: 'ocupado', 2: 'libresinI', 
+        4: 'maniobra', 5: 'libredeslizamiento', 6: 'zonasinseñalizar'
+    };
+
+    const esArriba = el.classList.contains('v-arriba');
+    const esAbajo = el.classList.contains('v-abajo');
+    const esDiagonal = el.classList.contains('diagonal');
+    
+    let nuevasClases = 'via';
+    if (esArriba) nuevasClases += ' v-arriba';
+    if (esAbajo) nuevasClases += ' v-abajo';
+    if (esDiagonal) nuevasClases += ' diagonal';
+    
+    el.className = nuevasClases; 
+    
+    if (estados[numEstado]) {
+        el.classList.add(estados[numEstado]);
     }
 }
 
@@ -927,8 +556,6 @@ function anclarNombres() {
         container.appendChild(label);
     });
 }
-
-window.addEventListener('load', anclarNombres);
 </script>
 </body>
 </html>
