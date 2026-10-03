@@ -7,7 +7,7 @@
 
 <style>
     body { background-color: #000; color: white; font-family: Arial, sans-serif; margin: 0; overflow-x: auto; user-select: none; }
-    .map-container { position: relative; width: 11500px; height: 2350px; background-color: #0b0c10; }
+     .map-container { position: relative; width: 22000px; height: 2000px; background-color: #0b0c10; }
 
     /* --- ESTILO SEÑALES --- */
     .senal-unificada { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 150; }
@@ -85,14 +85,20 @@
     .diagonal { transform-origin: 0% 50%; }   
 
     /* --- PANELES CONTROLES SUPERIORES --- */
-    .status-container-bel { position: absolute; top: 570px; left: 380px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); }
-    .status-row { display: flex; align-items: center; gap: 15px; color: white; }
-    .nombre-grupo { font-weight: bold; width: 75px; border-right: 1px solid rgba(255,255,255,0.3); }
+  
+
+ .status-container-bel { position: absolute; top: 920px; left: 10580px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
+
+
+
+  .status-row { display: flex; align-items: center; gap: 15px; color: white; }
+    .nombre-grupo { font-weight: bold; width: 85px; border-right: 1px solid rgba(255,255,255,0.3); }
     .led-rd { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; background: #222; display: inline-block; }
     .l-white { background: #fff !important; box-shadow: 0 0 10px #fff; }
     .l-red { background: #ff0000 !important; box-shadow: 0 0 10px #ff0000; }
 
-    .cd-via-panelB { position: absolute; top: 655px; left: 730px; background-color: #7D5BA6; border: 2px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
+
+.cd-via-panelB { position: absolute; top: 1055px; left: 11230px; background-color: #7D5BA6; border: 2px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
 
     .led-10mm { width: 15px; height: 15px; border-radius: 50%; background-color: #1a1a1a; border: 2px solid #333; display: inline-block; margin-right: 5px; transition: 0.2s; }
     .l-on-w { background-color: #ffffff !important; box-shadow: 0 0 15px #fff !important; }
@@ -107,22 +113,26 @@
     .enclav-senal { border-radius: 50%; }
     .label-plataforma { position: absolute; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px; letter-spacing: 1px; pointer-events: none; z-index: 15; }
 
-    .status-box-bel {
-        position: absolute;
-        top: 500px;
-        left: 380px; 
-        width: 225px;
-        background-color: #FFD700;
-        border: 2px solid #000;
-        border-radius: 4px;
-        padding: 6px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        z-index: 100;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-    }
+   .status-box-bel {
+    position: absolute;
+    top: 850px; /* Ajustalo ligeramente para que quede justo arriba del azul */
+    left: 10580px; 
+    width: 272px; /* El mismo ancho que tu panel azul o ajustado */
+    background-color: #FFD700; /* Amarillo Ferroviario */
+    border: 2px solid #000;
+    border-radius: 4px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    z-index: 100;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+
+
+
     .status-header-text { font-weight: bold; font-size: 20px; color: WHITE; text-transform: uppercase; }
     .status-content { display: flex; align-items: center; gap: 15px; }
     .status-label { font-size: 15px; font-weight: bold; color: RED; }
@@ -137,8 +147,8 @@
     /* LOGO FIJO DENTRO DEL TABLERO (NO FLOTA, SE MUEVE CON EL MAPA) */
     .logo-tablero {
         position: absolute;
-        top: 510px;
-        left: 1100px;
+        top: 920px;
+        left: 11600px;
         z-index: 100;
         background: #ffffff;
         padding: 4px 12px;
@@ -149,6 +159,8 @@
         box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
     }
 </style>
+
+
 </head>
 <body>
 
@@ -176,13 +188,15 @@
 
 
 
-<div class="linea-limite linea-v" style="top: 820px; left: 695px; height: 85px;"></div>
-<div class="linea-limite linea-h" style="top: 905px; left: 595px; width: 100px;"></div>
-<div class="linea-limite linea-v" style="top: 905px; left: 595px; height: 200px;"></div>
+<div class="linea-limite linea-v" style="top: 1220px; left: 11195px; height: 85px;"></div>
+<div class="linea-limite linea-h" style="top: 1305px; left: 11095px; width: 100px;"></div>
+<div class="linea-limite linea-v" style="top: 1305px; left: 11095px; height: 200px;"></div>
 
-<div class="linea-limite linea-v" style="top: 820px; left: 1245px; height: 85px;"></div>
-<div class="linea-limite linea-h" style="top: 905px; left: 1165px; width: 80px;"></div>
-<div class="linea-limite linea-v" style="top: 905px; left: 1165px; height: 200px;"></div>
+<div class="linea-limite linea-v" style="top: 1220px; left: 11745px; height: 85px;"></div>
+<div class="linea-limite linea-h" style="top: 1305px; left: 11665px; width: 80px;"></div>
+<div class="linea-limite linea-v" style="top: 1305px; left: 11665px; height: 200px;"></div>
+
+<div class="map-container">
     
 <div class="status-box-bel">
     <div class="status-header-text">BELGRANO C</div>
@@ -193,114 +207,123 @@
 </div>
 
    <div class="status-container-bel">
-        <div class="status-row"><b>W2/1</b><div id="LW12P" class="led-rd"></div><b>+</b><div id="LW12M" class="led-rd"></div><b>-</b><div id="AW12" class="led-rd"></div><b>A</b></div>
-    </div>
-
-    <div class="cd-via-panelB"><div><div id="led-CDV1_B" class="led-10mm"></div>CDV1</div><div><div id="led-CDV2_B" class="led-10mm"></div>CDV2</div><div><div id="led-RF_B" class="led-10mm"></div>R.F</div><div><div id="led-RU_B" class="led-10mm"></div>R.U</div></div>
-
-    <div class="estacion" style="top: 728px; left: 240px;">L. DE LA TORRE</div>
-    <div class="estacion" style="top: 728px; left: 705px;">BELGRANO C</div>
-
-    <div class="anden" style="top: 785px; left: 290px; width: 130px;"></div><div class="anden" style="top: 990px; left: 275px; width: 130px;"></div>
-    <div class="anden" style="top: 785px; left: 740px; width: 130px;"></div><div class="anden" style="top: 990px; left: 740px; width: 130px;"></div>
-
-    <div class="label-plataforma" style="top: 785px; left: 270px; width: 170px; height: 35px;">PLATAFORMA 1</div>
-    <div class="label-plataforma" style="top: 785px; left: 720px; width: 170px; height: 35px;">PLATAFORMA 1</div>
-    <div class="label-plataforma" style="top: 990px; left: 255px; width: 170px; height: 35px;">PLATAFORMA 2</div>
-    <div class="label-plataforma" style="top: 990px; left: 720px; width: 170px; height: 35px;">PLATAFORMA 2</div>
-
-    <div id="cT7" class="via v-arriba" data-nombre="CVT7" style="top: 850px; left: 60px; width: 85px;"></div>
-    <div id="c101" class="via v-arriba" data-nombre="CDV101" style="top: 850px; left: 150px; width: 95px;"></div>
-    <div id="c103" class="via v-arriba" data-nombre="CDV103" style="top: 850px; left: 250px; width: 195px;"></div>
-    <div id="c105" class="via v-arriba" data-nombre="CDV105" style="top: 850px; left: 450px; width: 95px;"></div>
-    <div id="c107" class="via v-arriba" data-nombre="CDV107" style="top: 850px; left: 550px; width: 145px;"></div>
-    <div id="ca-bel" class="via v-arriba" data-nombre="CDVA-BEL" style="top: 850px; left: 700px; width: 195px;"></div>
-    <div id="w1plus" class="via v-arriba" data-nombre="" style="top: 850px; left: 900px; width: 135px;"></div>
-    <div id="w1pm" class="via v-arriba" data-nombre="1" style="top: 850px; left: 1035px; width: 60px;"></div>
-    <div id="w1minus" class="via via-fantasma v-arriba" data-nombre="" style="top: 879px; left: 982px; width: 65px; height: 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);transform: rotate(-45deg);"></div>
-    <div id="cb-bel" class="via v-arriba" data-nombre="CVDB-BEL" style="top: 850px; left: 1100px; width: 145px;"></div>
-    <div id="c113" class="via v-arriba" data-nombre="CVD113" style="top: 850px; left: 1250px; width: 195px;"></div>
-    
-    <div id="c14" class="via v-abajo" data-nombre="CVLD14" style="top: 950px; left: 60px; width: 95px;"></div>
-    <div id="c104" class="via v-abajo" data-nombre="CDV104" style="top: 950px; left: 160px; width: 85px;"></div>
-    <div id="c106" class="via v-abajo" data-nombre="CDV106" style="top: 950px; left: 250px; width: 195px;"></div>
  
-    <div id="c108" class="via v-abajo" data-nombre="CDV108" style="top: 950px; left: 450px; width: 145px;"></div>
-    <div id="cy-bel" class="via v-abajo" data-nombre="CDVY-BEL" style="top: 950px; left: 600px; width: 115px;"></div>
-    <div id="cz-bel" class="via v-abajo" data-nombre="CDVZ-BEL" style="top: 950px; left: 720px; width: 175px;"></div>
-    <div id="w2pm" class="via v-abajo" data-nombre="2" style="top: 950px; left: 900px; width: 50px;"></div>
-    <div id="w2plus" class="via v-abajo" data-nombre="" style="top: 950px; left: 950px; width: 210px;"></div>
-    <div id="w2minus" class="via via-fantasma v-arriba" data-nombre="" style="top: 921px; left: 940px; width: 65px; height: 10px;  clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);transform: rotate(-45deg);"></div>
 
-    <div id="c114" class="via v-abajo" data-nombre="CDV114" style="top: 950px; left: 1165px; width: 130px;"></div>
-    <div id="c116" class="via v-abajo" data-nombre="CDV116" style="top: 950px; left: 1300px; width: 145px;"></div>
-
-    <div id="s101_base" class="senal-unificada f-rojo" style="top: 780px; left: 150px;"><div class="s-nombre-real">101</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s103_base" class="senal-unificada f-rojo" style="top: 780px; left: 250px;"><div class="s-nombre-real">103</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s105_base" class="senal-unificada f-rojo" style="top: 780px; left: 450px;"><div class="s-nombre-real">105</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s107_base" class="senal-unificada f-rojo" style="top: 780px; left: 550px;"><div class="s-nombre-real">107</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="sA-BEL_base" class="senal-unificada f-rojo" style="top: 780px; left: 695px;"><div class="s-nombre-real">A-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="sB-BEL_base" class="senal-unificada f-rojo" style="top: 780px; left: 900px;"><div class="s-nombre-real">B-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s113_base" class="senal-unificada f-rojo" style="top: 780px; left: 1245px;"><div class="s-nombre-real">113</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-
-    <div id="s76_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 20px;"><div class="s-nombre-real">76</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s102_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 120px;"><div class="s-nombre-real">102</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s104_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 210px;"><div class="s-nombre-real">104</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s106_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 410px;"><div class="s-nombre-real">106</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s108_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 560px;"><div class="s-nombre-real">108</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="sY-BEL_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 680px;"><div class="s-nombre-real">Y-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="sZ-BEL_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 1130px;"><div class="s-nombre-real">Z-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-    <div id="s114_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 985px; left: 1265px;"><div class="s-nombre-real">114</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
-
-    <div id="s2a_base" class="senal-unificada f-rojo enana" style="top: 915px; left: 900px;">
-      <div class="s-nombre-real">2A</div>
-      <div class="s-grafico-real">
-        <div class="t-girada">T</div>
-        <div class="curva-led"></div>
-      </div>
-    </div>
-
-    <div id="s1ba_base" class="senal-unificada f-rojo nombre-s-abajo enana" style="top: 865px; left: 1075px;">
-      <div class="s-nombre-real">1BA</div>
-      <div class="s-grafico-real" style="transform: scaleX(-1); display: flex; justify-content: center;">
-        <div class="t-girada">T</div>
-        <div class="curva-led"></div>
-    </div>
-    </div>
-
-    <div class="nombre-cambio" style="top: 827px; left: 1025px;">w1</div>
-    <div class="nombre-cambio" style="top: 970px; left: 940px;">w2</div>
-
-    <div style="position: absolute; top: 848px; left: 1025px; text-align: center;"><div id="EW1" class="led-enclav enclav-cambio"></div></div>
-    <div style="position: absolute; top: 947px; left: 938px; text-align: center;"><div id="EW2" class="led-enclav enclav-cambio"></div></div>
-
-    <div style="position: absolute; top: 797px; left: 675px; text-align: center;"><div id="ESAB" class="led-enclav enclav-senal"></div></div>
-    <div style="position: absolute; top: 797px; left: 880px; text-align: center;"><div id="ESBB" class="led-enclav enclav-senal"></div></div>
-    <div style="position: absolute; top: 995px; left: 1170px; text-align: center;"><div id="ESZB" class="led-enclav enclav-senal"></div></div>
-    <div style="position: absolute; top: 995px; left: 720px; text-align: center;"><div id="ESYB" class="led-enclav enclav-senal"></div></div>
+ <div class="status-row"><div class="nombre-grupo">W2/1</div><div id="LW12P" class="led-rd"></div><b>+</b><div id="LW12M" class="led-rd"></div><b>-</b><div id="AW12" class="led-rd"></div><b>A</b></div>
 
 </div>
 
+    <div class="cd-via-panelB"><div><div id="led-CDV1_B" class="led-10mm"></div>CDV1</div><div><div id="led-CDV2_B" class="led-10mm"></div>CDV2</div><div><div id="led-RF_B" class="led-10mm"></div>R.F</div><div><div id="led-RU_B" class="led-10mm"></div>R.U</div></div>
+
+    <div class="estacion" style="top: 1128px; left: 10740px;">L. DE LA TORRE</div>
+    <div class="estacion" style="top: 1128px; left: 11205px;">BELGRANO C</div>
+
+    <div class="anden" style="top: 1185px; left: 10790px; width: 130px;"></div><div class="anden" style="top: 1390px; left: 10775px; width: 130px;"></div>
+    <div class="anden" style="top: 1185px; left: 11240px; width: 130px;"></div><div class="anden" style="top: 1390px; left: 11240px; width: 130px;"></div>
+
+    <div class="label-plataforma" style="top: 1185px; left: 10770px; width: 170px; height: 35px;">PLATAFORMA 1</div>
+    <div class="label-plataforma" style="top: 1185px; left: 11220px; width: 170px; height: 35px;">PLATAFORMA 1</div>
+    <div class="label-plataforma" style="top: 1390px; left: 10755px; width: 170px; height: 35px;">PLATAFORMA 2</div>
+    <div class="label-plataforma" style="top: 1390px; left: 11220px; width: 170px; height: 35px;">PLATAFORMA 2</div>
+
+    <div id="cT7" class="via v-abajo" data-nombre="CVT7" style="top: 1250px; left: 10500px; width: 145px;"></div>
+    <div id="c101" class="via v-arriba" data-nombre="CDV101" style="top: 1250px; left: 10650px; width: 95px;"></div>
+    <div id="c103" class="via v-arriba" data-nombre="CDV103" style="top: 1250px; left: 10750px; width: 195px;"></div>
+    <div id="c105" class="via v-arriba" data-nombre="CDV105" style="top: 1250px; left: 10950px; width: 95px;"></div>
+    <div id="c107" class="via v-arriba" data-nombre="CDV107" style="top: 1250px; left: 11050px; width: 145px;"></div>
+    <div id="ca-bel" class="via v-arriba" data-nombre="CDVA-BEL" style="top: 1250px; left: 11200px; width: 195px;"></div>
+    <div id="w1plus" class="via v-arriba" data-nombre="" style="top: 1250px; left: 11400px; width: 135px;"></div>
+    <div id="w1pm" class="via v-arriba" data-nombre="1" style="top: 1250px; left: 11535px; width: 60px;"></div>
+    <div id="w1minus" class="via via-fantasma v-arriba" data-nombre="" style="top: 1279px; left: 11482px; width: 65px; height: 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);transform: rotate(-45deg);"></div>
+    <div id="cb-bel" class="via v-arriba" data-nombre="CVDB-BEL" style="top: 1250px; left: 11600px; width: 145px;"></div>
+    <div id="c113" class="via v-arriba" data-nombre="CVD113" style="top: 1250px; left: 11750px; width: 195px;"></div>
+    
+
+    <div id="c14" class="via v-abajo" data-nombre="CVLD14" style="top: 1350px; left: 10500px; width: 155px;"></div>
+    <div id="c104" class="via v-abajo" data-nombre="CDV104" style="top: 1350px; left: 10660px; width: 85px;"></div>
+    <div id="c106" class="via v-abajo" data-nombre="CDV106" style="top: 1350px; left: 10750px; width: 195px;"></div>
+    <div id="c108" class="via v-abajo" data-nombre="CDV108" style="top: 1350px; left: 10950px; width: 145px;"></div>
+    <div id="cy-bel" class="via v-abajo" data-nombre="CDVY-BEL" style="top: 1350px; left: 11100px; width: 115px;"></div>
+    <div id="cz-bel" class="via v-abajo" data-nombre="CDVZ-BEL" style="top: 1350px; left: 11220px; width: 175px;"></div>
+    <div id="w2pm" class="via v-abajo" data-nombre="2" style="top: 1350px; left: 11400px; width: 50px;"></div>
+    <div id="w2plus" class="via v-abajo" data-nombre="" style="top: 1350px; left: 11450px; width: 210px;"></div>
+    <div id="w2minus" class="via via-fantasma v-arriba" data-nombre="" style="top: 1321px; left: 11440px; width: 65px; height: 10px;  clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);transform: rotate(-45deg);"></div>
+
+    <div id="c114" class="via v-abajo" data-nombre="CDV114" style="top: 1350px; left: 11665px; width: 130px;"></div>
+    <div id="c116" class="via v-abajo" data-nombre="CDV116" style="top: 1350px; left: 11800px; width: 145px;"></div>
+
+    <div id="s101_base" class="senal-unificada f-rojo" style="top: 1195px; left: 10650px;"><div class="s-nombre-real">101</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s103_base" class="senal-unificada f-rojo" style="top: 1195px; left: 10750px;"><div class="s-nombre-real">103</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s105_base" class="senal-unificada f-rojo" style="top: 1195px; left: 10950px;"><div class="s-nombre-real">105</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s107_base" class="senal-unificada f-rojo" style="top: 1195px; left: 11050px;"><div class="s-nombre-real">107</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="sA-BEL_base" class="senal-unificada f-rojo" style="top: 1195px; left: 11195px;"><div class="s-nombre-real">A-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="sB-BEL_base" class="senal-unificada f-rojo" style="top: 1195px; left: 11400px;"><div class="s-nombre-real">B-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s113_base" class="senal-unificada f-rojo" style="top: 1195px; left: 11745px;"><div class="s-nombre-real">113</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+
+     <div id="s76_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 1370px; left: 10465px;"><div class="s-nombre-real">76</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s102_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 1370px; left: 10620px;"><div class="s-nombre-real">102</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s104_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 1370px; left: 10710px;"><div class="s-nombre-real">104</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s106_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 1370px; left: 10910px;"><div class="s-nombre-real">106</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s108_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 1370px; left: 11060px;"><div class="s-nombre-real">108</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="sY-BEL_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 1370px; left: 11180px;"><div class="s-nombre-real">Y-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="sZ-BEL_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 1370px; left: 11630px;"><div class="s-nombre-real">Z-BEL</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    <div id="s114_base" class="senal-unificada f-rojo sentido-izq nombre-s-abajo" style="top: 1370px; left: 11765px;"><div class="s-nombre-real">114</div><div class="s-grafico-real"><div class="t-girada">T</div><div class="circulo-led"></div></div></div>
+    
+<div id="s2a_base" class="senal-unificada f-rojo enana" style="top: 1315px; left: 11400px;">
+  <div class="s-nombre-real">2A</div>
+  <div class="s-grafico-real">
+    <div class="t-girada">T</div>
+    <div class="curva-led"></div>
+  </div>
+</div>
+
+<div id="s1ba_base" class="senal-unificada f-rojo nombre-s-abajo enana" style="top: 1265px; left: 11575px;">
+  <div class="s-nombre-real">1BA</div>
+  <div class="s-grafico-real" style="transform: scaleX(-1); display: flex; justify-content: center;">
+    <div class="t-girada">T</div>
+    <div class="curva-led"></div>
+</div>
+</div>
+  
+<div class="nombre-cambio" style="top: 1227px; left: 11525px;">w1</div>
+<div class="nombre-cambio" style="top: 1370px; left: 11440px;">w2</div>
+
+<div style="position: absolute; top: 1248px; left: 11525px; text-align: center;"><div id="EW1" class="led-enclav enclav-cambio"></div></div>
+<div style="position: absolute; top: 1347px; left: 11438px; text-align: center;"><div id="EW2" class="led-enclav enclav-cambio"></div></div>
+
+<div style="position: absolute; top: 1212px; left: 11175px; text-align: center;"><div id="ESAB" class="led-enclav enclav-senal"></div></div>
+<div style="position: absolute; top: 1212px; left: 11380px; text-align: center;"><div id="ESBB" class="led-enclav enclav-senal"></div></div>
+<div style="position: absolute; top: 1380px; left: 11670px; text-align: center;"><div id="ESZB" class="led-enclav enclav-senal"></div></div>
+<div style="position: absolute; top: 1380px; left: 11220px; text-align: center;"><div id="ESYB" class="led-enclav enclav-senal"></div></div>
+
+
+ 
+
+</div>
+
+<!-- FIREBASE SCRIPTS Y LÓGICA -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
-window.addEventListener('load', function() {
-    window.scrollTo(0, 400);
+    window.addEventListener('load', function() {
+    // El primer valor es X (horizontal) y el segundo es Y (vertical)
+    window.scrollTo(10450, 820); 
     anclarNombres();
 });
 
-var firebaseConfig = {
-    apiKey: "AIzaSyC2V...", 
-    authDomain: "mi-ctc-ferroviario.firebaseapp.com",
-    databaseURL: "https://mi-ctc-ferroviario-default-rtdb.firebaseio.com",
-    projectId: "mi-ctc-ferroviario",
-    storageBucket: "mi-ctc-ferroviario.appspot.com",
-    messagingSenderId: "367332213795",
-    appId: "1:367332213795:web:53177699e19cc174542289"
-};
+    var firebaseConfig = {
+        apiKey: "AIzaSyC2V...", 
+        authDomain: "mi-ctc-ferroviario.firebaseapp.com",
+        databaseURL: "https://mi-ctc-ferroviario-default-rtdb.firebaseio.com",
+        projectId: "mi-ctc-ferroviario",
+        storageBucket: "mi-ctc-ferroviario.appspot.com",
+        messagingSenderId: "367332213795",
+        appId: "1:367332213795:web:53177699e19cc174542289"
+    };
 
-firebase.initializeApp(firebaseConfig);
-var db = firebase.database();
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.database();
+
 
 const TABLA_CAMBIOS = {
     "W1": { pm: 'w1pm', plus: 'w1plus', minus: 'w1minus' },
