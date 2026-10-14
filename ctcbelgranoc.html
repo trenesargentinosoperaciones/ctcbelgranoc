@@ -7,7 +7,7 @@
 
 <style>
     body { background-color: #000; color: white; font-family: Arial, sans-serif; margin: 0; overflow-x: auto; user-select: none; }
-     .map-container { position: relative; width: 22000px; height: 2000px; background-color: #0b0c10; }
+    .map-container { position: relative; width: 22000px; height: 2000px; background-color: #0b0c10; }
 
     /* --- ESTILO SEÑALES --- */
     .senal-unificada { position: absolute; display: flex; flex-direction: column; align-items: center; z-index: 150; }
@@ -85,18 +85,13 @@
     .diagonal { transform-origin: 0% 50%; }   
 
     /* --- PANELES CONTROLES SUPERIORES --- */
-  
-
- .status-container-bel { position: absolute; top: 920px; left: 10580px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
-
-
+  .status-container-bel { position: absolute; top: 920px; left: 10580px; background-color: #0056b3; padding: 12px 18px; border-radius: 4px; border: 2px solid white; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.7); font-size: 15px; }
 
   .status-row { display: flex; align-items: center; gap: 15px; color: white; }
     .nombre-grupo { font-weight: bold; width: 85px; border-right: 1px solid rgba(255,255,255,0.3); }
     .led-rd { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; background: #222; display: inline-block; }
     .l-white { background: #fff !important; box-shadow: 0 0 10px #fff; }
     .l-red { background: #ff0000 !important; box-shadow: 0 0 10px #ff0000; }
-
 
 .cd-via-panelB { position: absolute; top: 1055px; left: 11230px; background-color: #7D5BA6; border: 2px solid #777; width: 140px; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; z-index: 50; }
 
@@ -115,10 +110,10 @@
 
    .status-box-bel {
     position: absolute;
-    top: 850px; /* Ajustalo ligeramente para que quede justo arriba del azul */
+    top: 850px;
     left: 10580px; 
-    width: 272px; /* El mismo ancho que tu panel azul o ajustado */
-    background-color: #FFD700; /* Amarillo Ferroviario */
+    width: 272px; 
+    background-color: #FFD700; 
     border: 2px solid #000;
     border-radius: 4px;
     padding: 6px;
@@ -129,9 +124,6 @@
     z-index: 100;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
 }
-
-
-
 
     .status-header-text { font-weight: bold; font-size: 20px; color: WHITE; text-transform: uppercase; }
     .status-content { display: flex; align-items: center; gap: 15px; }
@@ -144,7 +136,6 @@
     .linea-v { border-left-width: 2px; border-top: 0; border-bottom: 0; border-right: 0; }
     .linea-h { border-top-width: 2px; border-left: 0; border-right: 0; border-bottom: 0; }
 
-    /* LOGO FIJO DENTRO DEL TABLERO (NO FLOTA, SE MUEVE CON EL MAPA) */
     .logo-tablero {
         position: absolute;
         top: 920px;
@@ -159,14 +150,11 @@
         box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
     }
 </style>
-
-
 </head>
 <body>
 
 <div class="map-container">
     
-    <!-- LOGO FIJO INTEGRADO AL MAPA (CERCA DE LA ESTACIÓN BELGRANO C) -->
     <div class="logo-tablero">
         <svg height="60" viewBox="0 0 280 60" xmlns="http://www.w3.org/2000/svg">
             <rect width="330" height="60" fill="#ffffff"/>
@@ -176,18 +164,6 @@
         </svg>
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="linea-limite linea-v" style="top: 1220px; left: 11195px; height: 85px;"></div>
 <div class="linea-limite linea-h" style="top: 1305px; left: 11095px; width: 100px;"></div>
 <div class="linea-limite linea-v" style="top: 1305px; left: 11095px; height: 200px;"></div>
@@ -196,8 +172,6 @@
 <div class="linea-limite linea-h" style="top: 1305px; left: 11665px; width: 80px;"></div>
 <div class="linea-limite linea-v" style="top: 1305px; left: 11665px; height: 200px;"></div>
 
-<div class="map-container">
-    
 <div class="status-box-bel">
     <div class="status-header-text">BELGRANO C</div>
     <div class="status-content">
@@ -207,10 +181,7 @@
 </div>
 
    <div class="status-container-bel">
- 
-
  <div class="status-row"><div class="nombre-grupo">W2/1</div><div id="LW12P" class="led-rd"></div><b>+</b><div id="LW12M" class="led-rd"></div><b>-</b><div id="AW12" class="led-rd"></div><b>A</b></div>
-
 </div>
 
     <div class="cd-via-panelB"><div><div id="led-CDV1_B" class="led-10mm"></div>CDV1</div><div><div id="led-CDV2_B" class="led-10mm"></div>CDV2</div><div><div id="led-RF_B" class="led-10mm"></div>R.F</div><div><div id="led-RU_B" class="led-10mm"></div>R.U</div></div>
@@ -238,7 +209,6 @@
     <div id="cb-bel" class="via v-arriba" data-nombre="CVDB-BEL" style="top: 1250px; left: 11600px; width: 145px;"></div>
     <div id="c113" class="via v-arriba" data-nombre="CVD113" style="top: 1250px; left: 11750px; width: 195px;"></div>
     
-
     <div id="cvLD14" class="via v-abajo" data-nombre="CVLD14" style="top: 1350px; left: 10500px; width: 155px;"></div>
     <div id="c104" class="via v-abajo" data-nombre="CDV104" style="top: 1350px; left: 10660px; width: 85px;"></div>
     <div id="c106" class="via v-abajo" data-nombre="CDV106" style="top: 1350px; left: 10750px; width: 195px;"></div>
@@ -296,9 +266,6 @@
 <div style="position: absolute; top: 1380px; left: 11670px; text-align: center;"><div id="ESZB" class="led-enclav enclav-senal"></div></div>
 <div style="position: absolute; top: 1380px; left: 11220px; text-align: center;"><div id="ESYB" class="led-enclav enclav-senal"></div></div>
 
-
- 
-
 </div>
 
 <!-- FIREBASE SCRIPTS Y LÓGICA -->
@@ -306,7 +273,6 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
     window.addEventListener('load', function() {
-    // El primer valor es X (horizontal) y el segundo es Y (vertical)
     window.scrollTo(10450, 820); 
     anclarNombres();
 });
@@ -323,7 +289,6 @@
 
     firebase.initializeApp(firebaseConfig);
     var db = firebase.database();
-
 
 const TABLA_CAMBIOS = {
     "W1": { pm: 'w1pm', plus: 'w1plus', minus: 'w1minus' },
@@ -498,6 +463,9 @@ function procesarBloqueSenales(dataSenales) {
     });
 }
 
+// Control de renderizado sincronizado por fotograma para evitar desfasajes visuales
+let renderPendiente = false;
+
 db.ref('cabinas').on('value', function(snapshot) {
     var cabinas = snapshot.val();
     if(!snapshot.exists() || !cabinas) return;
@@ -522,13 +490,27 @@ db.ref('cabinas').on('value', function(snapshot) {
             if(dataBel.vias["w1pm"] !== undefined) w1_estado = dataBel.vias["w1pm"];
             if(dataBel.vias["w2pm"] !== undefined) w2_estado = dataBel.vias["w2pm"];
         }
-        if (dataBel.senales) { procesarBloqueSenales(dataBel.senales); }
+
         if (dataBel.cambios) {
             if (dataBel.cambios.W12 !== undefined) curW = dataBel.cambios.W12.toString();
             if (dataBel.cambios.AW12 !== undefined) flagAveria_Bel = parseInt(dataBel.cambios.AW12);
         }
-        procesarDatosTrafico(dataBel.trafico || dataBel.datos_trafico, "B");
-        procesarEnclavamientosCambios(dataBel.enclavamientos);
+
+        // Sincronizamos el repintado visual global en el mismo frame exacto
+        if (!renderPendiente) {
+            renderPendiente = true;
+            requestAnimationFrame(function() {
+                if (dataBel.senales) { procesarBloqueSenales(dataBel.senales); }
+                procesarDatosTrafico(dataBel.trafico || dataBel.datos_trafico, "B");
+                procesarEnclavamientosCambios(dataBel.enclavamientos);
+                
+                procesarCambioGeneral("W1", TABLA_CAMBIOS["W1"], curW, w1_estado, flagAveria_Bel == 1, tic);
+                procesarCambioGeneral("W2", TABLA_CAMBIOS["W2"], curW, w2_estado, flagAveria_Bel == 1, tic);
+                pW();
+
+                renderPendiente = false;
+            });
+        }
     }
 });
 
